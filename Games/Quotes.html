@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quotes List</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center; flex-direction: column; color: #fff; text-align: center;">
+
+  <button onclick="RandomQuotes()" 
+          style="padding: 12px 25px; font-size: 16px; font-weight: bold; background: #ff9800; border: none; border-radius: 8px; cursor: pointer; color: white; transition: 0.3s; margin-bottom: 20px;">
+    🎯 Generate Quote
+  </button>
+
+  <div style="background: rgba(255,255,255,0.15); padding: 20px 30px; border-radius: 15px; max-width: 600px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+    <h2 id="Thought" style="font-size: 20px; margin-bottom: 15px; line-height: 1.5;"></h2>
+    <p id="Author" style="font-style: italic; font-size: 16px; color: #ffe082;"></p>
+  </div>
+
+  <script>
+    function RandomQuotes() {
+      const quotes = [
+        { Thought: "The man who has confidence in himself gains the confidence of others.", Author: "Hasidic Proverb" },
+        { Thought: "What lies behind us and what lies before us are tiny matters compared to what lies within us.", Author: "Ralph Waldo Emerson" },
+        { Thought: "Do something today that your future self will thank you for.", Author: "Sean Patrick Flanery" },
+        { Thought: "Don’t stop when you’re tired. Stop when you’re done.", Author: "Marla Maples" },
+        { Thought: "Sometimes we’re tested not to show our weaknesses, but to discover our strengths.", Author: "Anonymous" },
+        { Thought: "Wake up with determination. Go to bed with satisfaction.", Author: "George Lorimer" },
+        { Thought: "Dream bigger. Do bigger.", Author: "Unknown" },
+        { Thought: "The harder you work for something, the greater you’ll feel when you achieve it.", Author: "Unknown" },
+        { Thought: "Success doesn’t just find you. You have to go out and get it.", Author: "Unknown" },
+        { Thought: "Don’t let what you cannot do interfere with what you can do.", Author: "John Wooden" },
+        { Thought: "Keep going. Everything you need will come to you at the perfect time.", Author: "Oprah Winfrey" },
+        { Thought: "Dream it. Wish it. Do it.", Author: "Unknown" },
+        { Thought: "Great things never come from comfort zones.", Author: "Roy T. Bennett" },
+        { Thought: "If opportunity doesn’t knock, build a door.", Author: "Milton Berle" },
+        { Thought: "The secret of getting ahead is getting started.", Author: "Mark Twain" },
+        { Thought: "Push yourself, because no one else is going to do it for you.", Author: "Unknown" },
+        { Thought: "Act as if you were already the person you want most to be.", Author: "Ralph Waldo Emerson" },
+        { Thought: "The only limit to our realization of tomorrow will be our doubts of today.", Author: "Franklin D. Roosevelt" },
+        { Thought: "Success is walking from failure to failure with no loss of enthusiasm.", Author: "Winston Churchill" },
+        { Thought: "Do what you love and the money will follow.", Author: "Marsha Sinetar" }
+      ];
+
+      let randomIndex = Math.floor(Math.random() * quotes.length);
+      document.getElementById("Thought").innerHTML = `“${quotes[randomIndex].Thought}”`;
+      document.getElementById("Author").innerHTML = `— ${quotes[randomIndex].Author}`;
+    }
+  </script>
+</body>
+</html>

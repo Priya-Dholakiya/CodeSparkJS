@@ -1,0 +1,15 @@
+<script>
+      var Book, price, Stock;
+      function BuyBook(b, p, s) {
+            Book = b;
+            price = p;
+            Stock = s;
+            if (Stock < 9) {
+                  console.log("Now Stock is." + Stock);
+            } else {
+                  console.log("Book is out of stock.");
+            }
+      }
+      BuyBook("JavaScript Basics", 499, 8);
+
+</script>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+</head>
+<body>
+    <div style="position: relative; width: 80%; margin: 40px auto; text-align: center;">
+        <div style="position: relative;">
+            <img src="image1.jpg" alt="Image 1" style="width: 100%; display: block;">
+            <img src="image2.jpg" alt="Image 2" style="width: 100%; display: none;">
+            <img src="image3.jpg" alt="Image 3" style="width: 100%; display: none;">
+            <!-- Add more images as needed -->
+        </div>
+        <button style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); font-size: 18px; padding: 10px; border: none; cursor: pointer;" onclick="prevSlide()">Prev</button>
+        <button style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); font-size: 18px; padding: 10px; border: none; cursor: pointer;" onclick="nextSlide()">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('img');
+
+        function showSlide(n) {
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            slides[n].style.display = 'block';
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

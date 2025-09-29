@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Color Palette</title>
+</head>
+
+<body style="margin:5px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: darkgray;">
+      <h1 style="text-align:center;">🎨 Random Color Palette</h1>
+
+      <div id="container" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; ">
+            <!-- Boxes -->
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+      </div>
+      <div id="container" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top: 5px;">
+            <!-- Boxes -->
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+      </div>
+      <div id="container" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top: 5px;">
+            <!-- Boxes -->
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+      </div>
+      <div id="container" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top: 5px;">
+            <!-- Boxes -->
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+      </div>
+      <div id="container" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top: 5px;">
+            <!-- Boxes -->
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+            <div class="box" style="width:100px; height:90px; border-radius:8px;"></div>
+      </div>
+
+      <script>
+            function randomColor() {
+                  const r = Math.floor( Math.random() * 256 );
+                  const g = Math.floor( Math.random() * 256 );
+                  const b = Math.floor( Math.random() * 256 );
+                  return `rgb(${ r },${ g },${ b })`;
+            }
+
+            window.addEventListener( 'load', () => {
+                  const boxes = document.querySelectorAll( '.box' );
+                  boxes.forEach( box => {
+                        box.style.backgroundColor = randomColor();
+                  } );
+            } );
+      </script>
+</body>
+
+</html>

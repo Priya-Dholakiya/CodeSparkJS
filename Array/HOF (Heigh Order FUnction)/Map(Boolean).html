@@ -1,0 +1,10 @@
+<script>
+      var Data = [20, 50.69, 'Priya', true, null, 8.52];
+
+      var result = Data.map(function (v, i) {
+            if (typeof (v) == "boolean") {
+                  return v;
+            }
+      });
+      console.log(result);
+</script>

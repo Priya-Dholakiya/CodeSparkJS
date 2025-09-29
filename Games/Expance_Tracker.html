@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💰 Expense Tracker</title>
+</head>
+<body style="font-family: Arial; background:#f7f7f7; text-align:center; padding:20px;">
+
+  <h2 style="color:#333;">💰 Simple Expense Tracker</h2>
+
+  <!-- Form -->
+  <div style="background:#fff; padding:20px; width:300px; margin:auto; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2);">
+    <input id="item" type="text" placeholder="Expense Name" style="padding:8px; margin:5px; width:90%; border:1px solid #ccc; border-radius:5px;"><br>
+    <input id="amount" type="number" placeholder="Amount" style="padding:8px; margin:5px; width:90%; border:1px solid #ccc; border-radius:5px;"><br>
+    <button onclick="addExpense()" style="padding:10px 20px; margin:10px; border:none; border-radius:5px; background:#28a745; color:white; cursor:pointer;">➕ Add</button>
+  </div>
+
+  <!-- Expense List -->
+  <div style="margin-top:20px; background:#fff; padding:20px; width:300px; margin:auto; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.2);">
+    <h3 style="margin:0; color:#444;">📋 Expense List</h3>
+    <ul id="list" style="list-style:none; padding:0; margin-top:10px;"></ul>
+    <h3 style="color:#222;">Total: ₹ <span id="total">0</span></h3>
+  </div>
+
+  <script>
+    let total = 0;
+
+    function addExpense() {
+      let item = document.getElementById("item").value.trim();
+      let amount = parseFloat(document.getElementById("amount").value);
+
+      if(item === "" || isNaN(amount) || amount <= 0){
+        alert("⚠️ Please enter valid expense and amount!");
+        return;
+      }
+
+      // Add to list
+      let li = document.createElement("li");
+      li.textContent = item + " - ₹" + amount;
+      li.style.padding = "5px";
+      li.style.textAlign = "left";
+      document.getElementById("list").appendChild(li);
+
+      // Update total
+      total += amount;
+      document.getElementById("total").textContent = total;
+
+      // Clear fields
+      document.getElementById("item").value = "";
+      document.getElementById("amount").value = "";
+    }
+  </script>
+
+</body>
+</html>

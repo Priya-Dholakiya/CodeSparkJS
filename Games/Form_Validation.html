@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Form Validation</title>
+</head>
+
+<body
+      style="font-family: Arial; background:#f4f4f4; display:flex; justify-content:center; align-items:center; height:100vh;">
+      <div style="background:white; padding:25px 50px 25px 25px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); width:300px;">
+            <h2 style="text-align:center; color:#444;">Form Validation</h2>
+
+            <label>First Name :</label><br>
+            <input type="text" id="fname" placeholder="Enter First Name"
+                  style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+            <label>Last Name :</label><br>
+            <input type="text" id="lname" placeholder="Enter Last Name"
+                  style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+            <label>Email :</label><br>
+            <input type="text" id="email" placeholder="Enter Email"
+                  style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+            <label>Password :</label><br>
+            <input type="password" id="password" placeholder="Enter Password"
+                  style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+            <label>Confirm Password :</label><br>
+            <input type="password" id="cpassword" placeholder="Confirm Password"
+                  style="width:100%; padding:8px; margin-bottom:15px;"><br>
+
+            <button type="button" onclick="validateForm()"
+                  style="width:100%; padding:10px; border:none; background:#4CAF50; color:white; font-size:16px; border-radius:5px; cursor:pointer;">
+                  Submit
+            </button>
+      </div>
+
+      <script>
+            function validateForm() {
+                  var fname = document.getElementById("fname").value.trim();
+                  var lname = document.getElementById("lname").value.trim();
+                  var email = document.getElementById("email").value.trim();
+                  var password = document.getElementById("password").value.trim();
+                  var cpassword = document.getElementById("cpassword").value.trim();
+
+                  // First Name
+                  if (fname === "") {
+                        alert("First Name must be filled out");
+                        return false;
+                  }
+                  // Last Name
+                  if (lname === "") {
+                        alert("Last Name must be filled out");
+                        return false;
+                  }
+                  // Email check
+                  if (email === "") {
+                        alert("Email must be filled out");
+                        return false;
+                  }
+                  if (!email.includes("@")) {
+                        alert("Email must contain @");
+                        return false;
+                  }
+                  // Password check
+                  if (password === "") {
+                        alert("Password must be filled out");
+                        return false;
+                  }
+                  if (cpassword === "") {
+                        alert("Confirm Password must be filled out");
+                        return false;
+                  }
+                  if (password !== cpassword) {
+                        alert("Passwords do not match");
+                        return false;
+                  }
+
+                  // Success
+                  alert("Form submitted successfully!");
+
+                  // Clear fields
+                  document.getElementById("fname").value = "";
+                  document.getElementById("lname").value = "";
+                  document.getElementById("email").value = "";
+                  document.getElementById("password").value = "";
+                  document.getElementById("cpassword").value = "";
+
+                  return true;
+            }
+      </script>
+</body>
+
+</html>

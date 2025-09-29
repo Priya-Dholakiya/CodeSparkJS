@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider</title>
+</head>
+
+<body style="margin:0; font-family: Arial, sans-serif; background: linear-gradient(135deg,#232526,#414345); display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column;">
+
+  <div style="position: relative; width: 70%; max-width:800px; text-align: center;">
+    <img id="slideImage" src="" alt="Slider Image" style="width:100%; border-radius:15px; box-shadow:0 5px 20px rgba(0,0,0,0.5);">
+    <p id="caption" style="color:white; font-size:18px; margin-top:12px; font-style:italic;"></p>
+
+    <!-- Prev & Next Buttons -->
+    <button onclick="prevSlide()" 
+            style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); font-size: 18px; padding: 10px 18px; border: none; cursor: pointer; background: rgba(0,0,0,0.6); color:white; border-radius:5px;">
+      ⬅
+    </button>
+
+    <button onclick="nextSlide()" 
+            style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); font-size: 18px; padding: 10px 18px; border: none; cursor: pointer; background: rgba(0,0,0,0.6); color:white; border-radius:5px;">
+      ➡
+    </button>
+  </div>
+
+  <script>
+    // 🔹 Image array with objects
+    const slides = [
+      { src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb", caption: "Beautiful Mountain View" },
+      { src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e", caption: "Calm Ocean Sunset" },
+      { src: "https://images.unsplash.com/photo-1501785888041-af3ef285b470", caption: "City Skyline at Night" }
+    ];
+
+    let currentSlide = 0;
+
+    function showSlide(n) {
+      document.getElementById("slideImage").src = slides[n].src;
+      document.getElementById("caption").innerText = slides[n].caption;
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    // 🔹 Show first slide initially
+    showSlide(currentSlide);
+  </script>
+</body>
+</html>
