@@ -1,0 +1,21 @@
+<script>
+      class Student {
+            setdetail( n, a , m , s, e) {
+                  this.name = n;
+                  this.age = a;
+                  this.maths = m;
+                  this.science = s;
+                  this.english = e;
+                  this.total = m + s + e;
+                  this.avg =this.total / 3;
+            }
+            getdetail(){
+                  console.log(`Student Name is ${this.name} and his Age is ${this.age}`);
+                  console.log(`${this.name} marks is ${this.total}`)
+                  console.log(`${this.name} Average is ${this.avg}`)
+            }
+      }
+      var s= new Student();
+      s.setdetail("Rahul" , 25, 85, 90, 80);
+      s.getdetail();
+</script>

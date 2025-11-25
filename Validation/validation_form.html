@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<body
+      style="font-family: Arial; background:#f4f4f4; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;">
+
+      <div style="background:#fff; padding:15px; width:260px; border-radius:10px; box-shadow:0 0 6px rgba(0,0,0,0.2);">
+
+            <h3 style="text-align:center; margin:5px 0 15px 0; color:#333; font-size:18px;">Form</h3>
+
+            <form onsubmit="return validateForm()">
+
+                  <label style="font-size:13px;">Name</label>
+                  <input type="text" id="name"
+                        style="width:100%; padding:5px; margin:2px 0 5px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="nameError" style="color:red; font-size:11px;"></span>
+
+                  <label style="font-size:13px;">Email</label>
+                  <input type="text" id="email"
+                        style="width:100%; padding:5px; margin:2px 0 5px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="emailError" style="color:red; font-size:11px;"></span>
+
+                  <label style="font-size:13px;">Phone</label>
+                  <input type="text" id="phone"
+                        style="width:100%; padding:5px; margin:2px 0 5px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="phoneError" style="color:red; font-size:11px;"></span>
+
+                  <label style="font-size:13px;">Password</label>
+                  <input type="password" id="password"
+                        style="width:100%; padding:5px; margin:2px 0 5px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="passwordError" style="color:red; font-size:11px;"></span>
+
+                  <label style="font-size:13px;">City</label>
+                  <input type="text" id="city"
+                        style="width:100%; padding:5px; margin:2px 0 5px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="cityError" style="color:red; font-size:11px;"></span>
+
+                  <label style="font-size:13px;">State</label>
+                  <input type="text" id="state"
+                        style="width:100%; padding:5px; margin:2px 0 5px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="stateError" style="color:red; font-size:11px;"></span>
+
+                  <label style="font-size:13px;">Age</label>
+                  <input type="text" id="age"
+                        style="width:100%; padding:5px; margin:2px 0 10px; border-radius:4px; border:1px solid #ccc; font-size:13px;">
+                  <span id="ageError" style="color:red; font-size:11px;"></span>
+
+                  <button
+                        style="width:100%; padding:7px; background:#4A90E2; color:white; border:none; border-radius:4px; font-size:14px; cursor:pointer;">
+                        Submit
+                  </button>
+
+            </form>
+      </div>
+
+
+      <script>
+            function validateForm() {
+
+                  document.getElementById( "nameError" ).innerHTML = "";
+                  document.getElementById( "emailError" ).innerHTML = "";
+                  document.getElementById( "phoneError" ).innerHTML = "";
+                  document.getElementById( "passwordError" ).innerHTML = "";
+                  document.getElementById( "cityError" ).innerHTML = "";
+                  document.getElementById( "stateError" ).innerHTML = "";
+                  document.getElementById( "ageError" ).innerHTML = "";
+
+                  let valid = true;
+
+                  if ( document.getElementById( "name" ).value.trim() === "" ) {
+                        document.getElementById( "nameError" ).innerHTML = "Required";
+                        valid = false;
+                  }
+
+                  let email = document.getElementById( "email" ).value;
+                  if ( !email.includes( "@" ) || !email.includes( "." ) ) {
+                        document.getElementById( "emailError" ).innerHTML = "Invalid email";
+                        valid = false;
+                  }
+
+                  let phone = document.getElementById( "phone" ).value;
+                  if ( phone.length !== 10 ) {
+                        document.getElementById( "phoneError" ).innerHTML = "10 digits only";
+                        valid = false;
+                  }
+
+                  if ( document.getElementById( "password" ).value.length < 6 ) {
+                        document.getElementById( "passwordError" ).innerHTML = "Min 6 chars";
+                        valid = false;
+                  }
+
+                  if ( document.getElementById( "city" ).value.trim() === "" ) {
+                        document.getElementById( "cityError" ).innerHTML = "Required";
+                        valid = false;
+                  }
+
+                  if ( document.getElementById( "state" ).value.trim() === "" ) {
+                        document.getElementById( "stateError" ).innerHTML = "Required";
+                        valid = false;
+                  }
+
+                  let age = document.getElementById( "age" ).value;
+                  if ( age === "" || isNaN( age ) ) {
+                        document.getElementById( "ageError" ).innerHTML = "Enter number";
+                        valid = false;
+                  }
+
+                  return valid;
+            }
+      </script>
+
+</body>
+
+</html>

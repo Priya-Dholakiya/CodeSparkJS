@@ -1,0 +1,32 @@
+<p id="demo"></p>
+
+<script>
+      // Ham jo Apne tarike se coundown ke liye date set karte he vo hai ye 
+      var countDownDate = new Date( "Nov 25 , 2026 22:08:10" ).getTime();
+
+      // set interval ki help se hamis funtion ko chala ke secound count karte he aur jo date targetki he use get krte he
+      var x = setInterval( function () {
+
+            //ye jo hai na us variable me abhi ki date and time ko get kar raha he
+            var now = new Date().getTime();
+
+            // hamne jo date di he coundown ke liye usme se jo live date he use (-) kar rahi hai
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor( distance / ( 1000 * 60 * 60 * 24 ) );
+            var hours = Math.floor( ( distance % ( 1000 * 60 * 60 * 24 ) ) / ( 1000 * 60 * 60 ) );
+            var minutes = Math.floor( ( distance % ( 1000 * 60 * 60 ) ) / ( 1000 * 60 ) );
+            var seconds = Math.floor( ( distance % ( 1000 * 60 ) ) / 1000 );
+
+            // Display the result in the element with id="demo"
+            document.getElementById( "demo" ).innerHTML = days + "d " + hours + "h "
+                  + minutes + "m " + seconds + "s ";
+
+            // jab bhi ye coundown khatamhota hai na to hamejo bhi karvana hai like jo section dikhana hai vo aur jo print karvana hai vo dikhta hai
+            if ( distance < 0 ) {
+                  clearInterval( x );
+                  document.getElementById( "demo" ).innerHTML = "Finished";
+            }
+      }, 1000 );
+</script>

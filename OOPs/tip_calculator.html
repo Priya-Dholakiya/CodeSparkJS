@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <title>Dynamic Tip Calculator</title>
+</head>
+
+<body>
+      <h2>💰 Tip Calculator</h2>
+      <label>Enter Bill Amount: </label>
+      <input type="number" id="bill" placeholder="e.g. 1500"><br><br>
+      <label>Enter Tip Percentage: </label>
+      <input type="number" id="tip" placeholder="e.g. 10"><br><br>
+      <button onclick="calculateTip()">Calculate</button>
+      <h3>Result:</h3>
+      <pre id="output"></pre>
+      <script>
+            class Tipcalculator {
+                  setbillamount( bill, tip ) {
+                        this.Bill = bill;
+                        this.Tip = tip;
+                  }
+                  tipcalculator() {
+                        return ( this.Bill * this.Tip ) / 100;
+                  }
+                  gettotal() {
+                        return this.tipcalculator() + this.Bill;
+                  }
+                  getdetails() {
+                        return `Bill Amount: ₹${ this.Bill }
+Tip Percentage: ${ this.Tip }%
+Tip Amount: ₹${ this.tipcalculator() }
+Total Amount: ₹${ this.gettotal() }`;
+                  }
+            }
+            function calculateTip() {
+                  let bill = parseFloat( document.getElementById( "bill" ).value );
+                  let tip = parseFloat( document.getElementById( "tip" ).value );
+                  if ( isNaN( bill ) || isNaN( tip ) ) {
+                        document.getElementById( "output" ).innerText = "⚠️ Please enter valid numbers!";
+                        return;
+                  }
+                  let t = new Tipcalculator();
+                  t.setbillamount( bill, tip );
+                  document.getElementById( "output" ).innerText = t.getdetails();
+            }
+      </script>
+</body>
+
+</html>

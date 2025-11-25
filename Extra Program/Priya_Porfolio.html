@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>CodeSparkJS Solar System</title>
+      <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;500&display=swap"
+            rel="stylesheet">
+      <style>
+            body {
+                  margin: 0;
+                  background: #000;
+                  overflow: hidden;
+                  font-family: 'Poppins', sans-serif;
+                  color: #fff;
+            }
+
+            canvas {
+                  display: block;
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  z-index: -1;
+            }
+
+            h1 {
+                  text-align: center;
+                  margin: 20px 0;
+                  font-family: 'Orbitron', sans-serif;
+                  color: #FFD700;
+            }
+
+            .planet {
+                  position: absolute;
+                  border-radius: 50%;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: #fff;
+                  font-weight: 500;
+                  transition: transform 0.3s, box-shadow 0.3s;
+            }
+
+            .planet:hover {
+                  transform: scale(1.3);
+                  box-shadow: 0 0 20px #fff;
+            }
+
+            /* Modal */
+            .modal {
+                  position: fixed;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%) scale(0);
+                  background: #111;
+                  border: 2px solid #00e5ff;
+                  border-radius: 15px;
+                  padding: 20px;
+                  color: #fff;
+                  width: 90%;
+                  max-width: 400px;
+                  transition: 0.3s;
+                  z-index: 10;
+            }
+
+            .modal.active {
+                  transform: translate(-50%, -50%) scale(1);
+            }
+
+            .close-btn {
+                  position: absolute;
+                  top: 10px;
+                  right: 15px;
+                  cursor: pointer;
+                  color: #00e5ff;
+                  font-weight: bold;
+            }
+      </style>
+</head>
+
+<body>
+
+      <h1>CodeSparkJS Solar System</h1>
+
+      <!-- Planets -->
+      <div class="planet" id="sun" data-title="Sun" data-desc="Center of the Solar System" style="background: #FFD700;">
+      </div>
+      <div class="planet" id="mercury" data-title="Mercury" data-desc="Smallest planet, fast orbit"
+            style="background:#a6a6a6;"></div>
+      <div class="planet" id="venus" data-title="Venus" data-desc="Brightest planet" style="background:#f5deb3;"></div>
+      <div class="planet" id="earth" data-title="Earth" data-desc="Our home planet" style="background:#1e90ff;"></div>
+      <div class="planet" id="moon" data-title="Moon" data-desc="Earth's satellite" style="background:#ccc;"></div>
+      <div class="planet" id="mars" data-title="Mars" data-desc="The red planet" style="background:#ff4500;"></div>
+      <div class="planet" id="jupiter" data-title="Jupiter" data-desc="Largest planet" style="background:#f4a460;">
+      </div>
+      <div class="planet" id="saturn" data-title="Saturn" data-desc="Ringed planet" style="background:#deb887;"></div>
+      <div class="planet" id="uranus" data-title="Uranus" data-desc="Ice giant" style="background:#00ffff;"></div>
+      <div class="planet" id="neptune" data-title="Neptune" data-desc="Farthest planet" style="background:#4169e1;">
+      </div>
+
+      <!-- Modal -->
+      <div class="modal" id="modal">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDesc"></p>
+      </div>
+
+      <canvas id="universe"></canvas>
+
+      <script>
+            const canvas = document.getElementById( 'universe' );
+            const ctx = canvas.getContext( '2d' );
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            // Stars
+            const stars = [];
+            for ( let i = 0; i < 300; i++ ) {
+                  stars.push( { x: Math.random() * width, y: Math.random() * height, r: Math.random() * 1.5 } );
+            }
+            function drawStars() {
+                  ctx.clearRect( 0, 0, width, height );
+                  stars.forEach( s => {
+                        ctx.beginPath();
+                        ctx.arc( s.x, s.y, s.r, 0, Math.PI * 2 );
+                        ctx.fillStyle = "#fff";
+                        ctx.fill();
+                  } );
+            }
+
+            // Planets Orbit Data
+            const planets = [
+                  { el: document.getElementById( 'mercury' ), angle: 0, radius: 70, speed: 0.02 },
+                  { el: document.getElementById( 'venus' ), angle: Math.PI / 3, radius: 100, speed: 0.015 },
+                  { el: document.getElementById( 'earth' ), angle: Math.PI / 2, radius: 130, speed: 0.01 },
+                  { el: document.getElementById( 'moon' ), angle: 0, radius: 20, speed: 0.04, parent: 'earth' },
+                  { el: document.getElementById( 'mars' ), angle: Math.PI / 1.5, radius: 160, speed: 0.008 },
+                  { el: document.getElementById( 'jupiter' ), angle: Math.PI / 4, radius: 220, speed: 0.006 },
+                  { el: document.getElementById( 'saturn' ), angle: Math.PI / 5, radius: 280, speed: 0.005 },
+                  { el: document.getElementById( 'uranus' ), angle: Math.PI / 6, radius: 320, speed: 0.004 },
+                  { el: document.getElementById( 'neptune' ), angle: Math.PI / 7, radius: 360, speed: 0.003 },
+            ];
+
+            const sun = { x: width / 2, y: height / 2, el: document.getElementById( 'sun' ) };
+            sun.el.style.width = '100px'; sun.el.style.height = '100px'; sun.el.style.lineHeight = '100px'; sun.el.style.textAlign = 'center';
+
+            planets.forEach( p => {
+                  p.el.style.width = '50px';
+                  p.el.style.height = '50px';
+                  p.el.style.lineHeight = '50px';
+                  p.el.style.textAlign = 'center';
+            } );
+
+            function animatePlanets() {
+                  planets.forEach( p => {
+                        p.angle += p.speed;
+                        let centerX = sun.x, centerY = sun.y;
+                        if ( p.parent === 'earth' ) {
+                              const earth = planets.find( pl => pl.el.id === 'earth' );
+                              centerX = parseFloat( earth.el.style.left ) + 25;
+                              centerY = parseFloat( earth.el.style.top ) + 25;
+                        }
+                        const x = centerX + Math.cos( p.angle ) * p.radius - 25; // 25 = half width
+                        const y = centerY + Math.sin( p.angle ) * p.radius - 25;
+                        p.el.style.left = x + 'px';
+                        p.el.style.top = y + 'px';
+                  } );
+                  drawStars();
+                  requestAnimationFrame( animatePlanets );
+            }
+            animatePlanets();
+
+            // Planet Modal
+            const modal = document.getElementById( 'modal' );
+            const modalTitle = document.getElementById( 'modalTitle' );
+            const modalDesc = document.getElementById( 'modalDesc' );
+            const closeBtn = document.getElementById( 'closeBtn' );
+
+            planets.concat( sun ).forEach( p => {
+                  p.el.addEventListener( 'click', () => {
+                        modal.classList.add( 'active' );
+                        modalTitle.textContent = p.el.dataset.title;
+                        modalDesc.textContent = p.el.dataset.desc;
+                  } );
+            } );
+            closeBtn.addEventListener( 'click', () => modal.classList.remove( 'active' ) );
+
+            // Resize canvas on window resize
+            window.addEventListener( 'resize', () => {
+                  width = canvas.width = window.innerWidth;
+                  height = canvas.height = window.innerHeight;
+                  sun.x = width / 2; sun.y = height / 2;
+            } );
+      </script>
+
+</body>
+
+</html>
