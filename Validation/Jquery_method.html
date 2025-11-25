@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <form id="myform">
       <label for="username">Username</label>
       <input id="username" name="username" type="text">
@@ -25,4 +26,33 @@
                   email: { required: "Please enter your email" }
             }
       } );
+=======
+<form id="myform">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text">
+      <br><br>
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="text">
+      <br><br>
+
+      <input type="submit" value="Submit">
+</form>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+<script>
+      $( "#myform" ).validate( {
+            rules: {
+                  username: { required: true },
+                  email: { required: true }
+            },
+            messages: {
+                  username: { required: "Please enter your username" },
+                  email: { required: "Please enter your email" }
+            }
+      } );
+>>>>>>> e8e02d074a01df18791134b0a81c2f8a13bce41a
 </script>

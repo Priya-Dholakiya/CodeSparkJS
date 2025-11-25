@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html>
 
@@ -155,4 +156,163 @@
 
 </body>
 
+=======
+<!DOCTYPE html>
+<html>
+
+<body
+      style="display:flex; justify-content:center; align-items:center; height:100vh; background:#eef1f5; font-family:Arial;">
+
+      <div
+            style="background:white; padding:25px; width:320px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+
+            <!-- SIGN UP FORM -->
+            <div id="signupBox">
+
+                  <h2 style="text-align:center; margin-bottom:20px; color:#333;">Sign Up</h2>
+
+                  <form id="signupForm">
+
+                        <div style="margin-bottom:15px;">
+                              <label>Username</label>
+                              <input type="text" id="username"
+                                    style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:6px;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                              <label>Email</label>
+                              <input type="text" id="email"
+                                    style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:6px;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                              <label>Password</label>
+                              <input type="password" id="password"
+                                    style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:6px;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                              <label>Confirm Password</label>
+                              <input type="password" id="cpassword"
+                                    style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:6px;">
+                        </div>
+
+                        <div style="margin-bottom:10px; display:flex; gap:8px; align-items:center;">
+                              <input type="checkbox" id="tnc1" style="width:16px; height:16px;">
+                              <label for="tnc1">I accept Privacy Policy</label>
+                        </div>
+
+                        <div style="margin-bottom:15px; display:flex; gap:8px; align-items:center;">
+                              <input type="checkbox" id="tnc2" style="width:16px; height:16px;">
+                              <label for="tnc2">I accept Terms & Conditions</label>
+                        </div>
+
+                        <div id="errorBoxSignup" style="color:red; font-size:14px; min-height:20px;"></div>
+
+                        <button type="submit"
+                              style="width:100%; padding:10px; background:#4CAF50; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;">
+                              Sign Up
+                        </button>
+                  </form>
+
+                  <p style="text-align:center; margin-top:15px; font-size:14px;">
+                        Already have an account?
+                        <a href="#" id="showLogin" style="color:#007bff;">Login</a>
+                  </p>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="loginBox" style="display:none;">
+
+                  <h2 style="text-align:center; margin-bottom:20px; color:#333;">Login</h2>
+
+                  <form id="loginForm">
+                        <div style="margin-bottom:15px;">
+                              <label>Email</label>
+                              <input type="text" id="loginEmail"
+                                    style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:6px;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                              <label>Password</label>
+                              <input type="password" id="loginPassword"
+                                    style="width:100%; padding:8px; border-radius:6px; border:1px solid #ccc; margin-top:6px;">
+                        </div>
+
+                        <div id="errorBoxLogin" style="color:red; font-size:14px; min-height:20px;"></div>
+
+                        <button type="submit"
+                              style="width:100%; padding:10px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;">
+                              Login
+                        </button>
+                  </form>
+
+                  <p style="text-align:center; margin-top:15px; font-size:14px;">
+                        Don't have an account?
+                        <a href="#" id="showSignup" style="color:#007bff;">Sign Up</a>
+                  </p>
+
+            </div>
+
+      </div>
+
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script>
+
+            // Switch TO Login
+            $( "#showLogin" ).click( function () {
+                  $( "#signupBox" ).hide();
+                  $( "#loginBox" ).show();
+            } );
+
+            // Switch TO Signup
+            $( "#showSignup" ).click( function () {
+                  $( "#loginBox" ).hide();
+                  $( "#signupBox" ).show();
+            } );
+
+            // SIGNUP VALIDATION
+            // SIGNUP VALIDATION (Reload when valid)
+                  $( "#signupForm" ).submit( function ( e ) {
+                        e.preventDefault();
+
+                        let user = $( "#username" ).val();
+                        let email = $( "#email" ).val();
+                        let pass = $( "#password" ).val();
+                        let cpass = $( "#cpassword" ).val();
+                        let t1 = $( "#tnc1" ).is( ":checked" );
+                        let t2 = $( "#tnc2" ).is( ":checked" );
+
+                        let box = $( "#errorBoxSignup" );
+
+                        // empty fields
+                        if ( user === "" || email === "" || pass === "" || cpass === "" ) {
+                              box.text( "Please fill all the fields" );
+                              return;   // ❌ Stop reload
+                        }
+
+                        // password mismatch
+                        if ( pass !== cpass ) {
+                              box.text( "Password does not match" );
+                              return;   // ❌ Stop reload
+                        }
+
+                        // checkbox not accepted
+                        if ( !t1 || !t2 ) {
+                              box.text( "Please accept both checkboxes" );
+                              return;   // ❌ Stop reload
+                        }
+
+                        // All good → reload page
+                        box.text( "" );   // Clear errors
+                        location.reload();   // ✅ Successful → reload
+                  } );
+
+
+      </script>
+
+</body>
+
+>>>>>>> e8e02d074a01df18791134b0a81c2f8a13bce41a
 </html>

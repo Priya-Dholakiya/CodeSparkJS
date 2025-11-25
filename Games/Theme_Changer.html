@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,4 +48,55 @@
       </script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <title>🍬 Sweet Theme Changer</title>
+</head>
+
+<body
+      style="margin:0; font-family:'Poppins',sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background:linear-gradient(135deg,#ffe6f9,#e6faff,#fffbe6); transition:0.6s;">
+
+      <h1 id="title" style="color:#ff66aa; font-size:30px; margin-bottom:10px; transition:0.3s;">🌸 Sweet Theme Mood
+      </h1>
+      <p id="msg" style="color:#555; font-size:17px; margin-bottom:25px;">Click the magic button to change the vibe 🎨
+      </p>
+
+      <button id="btn"
+            style="padding:14px 28px; border:none; border-radius:25px; font-size:17px; background:#ffccdd; color:#333; box-shadow:0 4px 8px rgba(0,0,0,0.2); cursor:pointer; transition:0.3s;">
+            💖 Change Mood
+      </button>
+
+      <script>
+            const body = document.body;
+            const btn = document.getElementById( "btn" );
+            const title = document.getElementById( "title" );
+            const msg = document.getElementById( "msg" );
+
+            const themes = [
+                  { bg: "linear-gradient(135deg,#ffb3ba,#ffdfba,#ffffba)", color: "#ff6699", text: "🌈 Candy Clouds", msg: "Soft hearts & bright vibes ☁️" },
+                  { bg: "linear-gradient(135deg,#baffc9,#bae1ff,#ffdfba)", color: "#0099ff", text: "🦋 Dreamy Sky", msg: "Breathe fresh & stay calm 🌤️" },
+                  { bg: "linear-gradient(135deg,#ffb3ff,#ecb3ff,#d5b3ff)", color: "#9933ff", text: "🍇 Grape Bubble", msg: "Float in your pastel dream 💭" },
+                  { bg: "linear-gradient(135deg,#fff5ba,#baffc9,#bae1ff)", color: "#33aa88", text: "🍋 Lemon Mint", msg: "Smile like sunshine 🌞" },
+                  { bg: "linear-gradient(135deg,#ffccf9,#fcc2ff,#e0bbff)", color: "#cc33cc", text: "🩵 Cotton Candy", msg: "Sweetness in every click 💕" }
+            ];
+
+            let i = 0;
+            btn.onclick = () => {
+                  i = ( i + 1 ) % themes.length;
+                  body.style.background = themes[ i ].bg;
+                  title.style.color = themes[ i ].color;
+                  title.innerHTML = themes[ i ].text;
+                  msg.innerHTML = themes[ i ].msg;
+                  btn.style.background = themes[ i ].color + "22";
+                  btn.style.color = themes[ i ].color;
+                  btn.innerHTML = "✨ Change Again";
+            };
+      </script>
+</body>
+
+>>>>>>> e8e02d074a01df18791134b0a81c2f8a13bce41a
 </html>
