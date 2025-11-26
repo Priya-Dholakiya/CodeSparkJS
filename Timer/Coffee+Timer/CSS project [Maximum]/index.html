@@ -13,13 +13,19 @@
     <!--css link-->
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- media link -->
-     <link rel="stylesheet" href="assets/css/media.css">
+    <link rel="stylesheet" href="assets/css/media.css">
 </head>
 <div id="loader">
     <div class="coffee"></div>
     <p>Brewing your Coffee...</p>
 </div>
 <div id="allcontent">
+    <div id="scrollCircle" style="position: fixed; bottom: 20px; right: 20px; height: 70px;width:70px;border-radius: 50%; background: #111; color: #fff;display: flex;align-items: center; justify-content: center;font-size: 20px;font-weight: bold;box-shadow: 0 0 10px rgba(0,0,0,0.5);z-index: 99999;"> 0%</div>
+    <!-- Popup Message -->
+    <div id="popupMsg" style=" position: fixed; bottom: 100px; right: 20px; background: #ff9900;color: #000; padding: 12px 20px; border-radius: 10px; font-size: 18px; display: none; font-weight: bold; box-shadow: 0 0 10px rgba(0,0,0,0.3); z-index: 99999;">
+        🎉 Aapne 50% website dekh li hai!
+    </div>
+
     <body>
         <!-- Header-start -->
         <header>
@@ -200,7 +206,8 @@
                         <div class="about-content">
                             <span>Who we are</span>
                             <h2>About Market</h2>
-                            <p>Sed sagittis sodales lobortis. Curabitur in eleifend turpis, id vehicula odio. Donec pulvinar
+                            <p>Sed sagittis sodales lobortis. Curabitur in eleifend turpis, id vehicula odio. Donec
+                                pulvinar
                                 tellus egetmagna aliquet ultricies. Praesent gravida hendrerit ex, nec eleifend sem
                                 convallis vitae.</p>
                             <img src="assets/img/sign-1.png" alt="">
@@ -241,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-    
+
         </section>
         <!--about end-->
         <!--Product Start-->
@@ -458,8 +465,10 @@
                             <h3 class="dealer-1">
                                 Become our dealer
                             </h3>
-                            <p>Curabitur sollicitudin ultrices tortor, eget pulvinar risus cursus eu. Vivamus sit amet odio
-                                massa. Vivamus dapibus elementum tellus nec fermentum. Sed blandit condimentum molestie. In
+                            <p>Curabitur sollicitudin ultrices tortor, eget pulvinar risus cursus eu. Vivamus sit amet
+                                odio
+                                massa. Vivamus dapibus elementum tellus nec fermentum. Sed blandit condimentum molestie.
+                                In
                                 hac habitasse platea dictumst. Etiam fringilla a elit at ornare.</p>
                             <div class="btn d-flex">
                                 <div class="btn-1">
@@ -486,7 +495,8 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex align-items-center">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-2 col-xxl-2 d-flex justify-content-center">
+                        <div
+                            class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-2 col-xxl-2 d-flex justify-content-center">
                             <div class="review-icon">
                                 <i class="fa-solid fa-angle-left"></i>
                             </div>
@@ -506,7 +516,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-2 col-xxl-2 d-flex justify-content-center">
+                        <div
+                            class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-2 col-xxl-2 d-flex justify-content-center">
                             <div class="review-icon">
                                 <i class="fa-solid fa-angle-right"></i>
                             </div>
@@ -553,7 +564,8 @@
                             <span>Special offer</span>
                             <h2>Get your discount</h2>
                             <img src="assets/img/card.png" alt="">
-                            <p>Morbi malesuada dui in iaculis lacinia. Duis laoreet ut liberonec tincidunt. Maecenas a eros
+                            <p>Morbi malesuada dui in iaculis lacinia. Duis laoreet ut liberonec tincidunt. Maecenas a
+                                eros
                                 finibus, condimentum tortoreget, auctor nunc. Aenean a efficitur leo.</p>
                             <div class="discount-btn">
                                 <a href="#" class="dis-btn">Get now</a>
@@ -591,8 +603,10 @@
                                     </div>
                                     <div class="blog-content">
                                         <h2>History of cofee</h2>
-                                        <p>Integer maximus accumsan nunc, sit amet tempor lectus facilisis eu. Cras vel elit
-                                            felis. Vestibulum convallis ipsum id aliquam varius. Etiam nec laoreet ...</p>
+                                        <p>Integer maximus accumsan nunc, sit amet tempor lectus facilisis eu. Cras vel
+                                            elit
+                                            felis. Vestibulum convallis ipsum id aliquam varius. Etiam nec laoreet ...
+                                        </p>
                                         <div class="info">
                                             <a href="#" class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
@@ -624,7 +638,8 @@
                                     <div class="blog-content">
                                         <h2>About Americano coffee</h2>
                                         <p>Vivamus tristique ligula quis orci malesuada tincidunt. Praesent magna purus,
-                                            pharetra eu eleifend non, euismod vitae leo. Interdum et malesuada fames ac ante
+                                            pharetra eu eleifend non, euismod vitae leo. Interdum et malesuada fames ac
+                                            ante
                                             ...</p>
                                         <div class="info">
                                             <a href="#" class="d-flex align-items-center justify-content-between">
@@ -656,8 +671,10 @@
                                     </div>
                                     <div class="blog-content">
                                         <h2>Coffee roasts guide</h2>
-                                        <p>In efficitur, leo non commodo lacinia, odio metus sodales purus, sed consequat
-                                            lectus mi in purus. Vivamus vitae metus et nisl egestas sollicitudin. Quisque
+                                        <p>In efficitur, leo non commodo lacinia, odio metus sodales purus, sed
+                                            consequat
+                                            lectus mi in purus. Vivamus vitae metus et nisl egestas sollicitudin.
+                                            Quisque
                                             ...</p>
                                         <div class="info">
                                             <a href="#" class="d-flex align-items-center justify-content-between">
@@ -711,7 +728,7 @@
                                     Subscribe
                                 </button>
                             </form>
-    
+
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3 col-xxl-3">
@@ -749,7 +766,8 @@
                     <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-4">
                         <div class="footer">
                             <a href="#"><img src="assets/img/logo.png" alt=""></a>
-                            <p>Pellentesque congue non augue vitae pellentesque. Morbi sollicitudin eleifend rhoncus. Mauris
+                            <p>Pellentesque congue non augue vitae pellentesque. Morbi sollicitudin eleifend rhoncus.
+                                Mauris
                                 vel nisl a massa viverra sollicitudin semper a diam.</p>
                         </div>
                     </div>
@@ -818,28 +836,52 @@
 
 </html>
 <script>
-    var ac = document.getElementById('allcontent').display = 'none';
+    var ac = document.getElementById( 'allcontent' ).display = 'none';
     // 5 sec loader
-        setTimeout( () => {
-            document.body.classList.add( "loaded" );
-        }, 3000 );
+    setTimeout( () => {
+        document.body.classList.add( "loaded" );
+    }, 3000 );
 
-        // Countdown
-        var countDownDate = new Date( "Nov 25, 2026 22:08:10" ).getTime();
+    // Countdown
+    var countDownDate = new Date( "Nov 25, 2026 22:08:10" ).getTime();
 
-        var x = setInterval( function () {
-            var now = new Date().getTime();
-            var distance = countDownDate - now;
+    var x = setInterval( function () {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
 
-            var days = Math.floor( distance / ( 1000 * 60 * 60 * 24 ) );
-            var hours = Math.floor( ( distance % ( 1000 * 60 * 60 * 24 ) ) / ( 1000 * 60 * 60 ) );
-            var minutes = Math.floor( ( distance % ( 1000 * 60 * 60 ) ) / ( 1000 * 60 ) );
-            var seconds = Math.floor( ( distance % ( 1000 * 60 ) ) / 1000 );
+        var days = Math.floor( distance / ( 1000 * 60 * 60 * 24 ) );
+        var hours = Math.floor( ( distance % ( 1000 * 60 * 60 * 24 ) ) / ( 1000 * 60 * 60 ) );
+        var minutes = Math.floor( ( distance % ( 1000 * 60 * 60 ) ) / ( 1000 * 60 ) );
+        var seconds = Math.floor( ( distance % ( 1000 * 60 ) ) / 1000 );
 
-            if ( distance < 0 ) {
-                var ac = document.getElementById( 'allcontent' ).display = 'block';
-                clearInterval( x );
+        if ( distance < 0 ) {
+            var ac = document.getElementById( 'allcontent' ).display = 'block';
+            clearInterval( x );
+        }
+    }, 1000 );
+
+    <!-- scrollbtn  -->
+     let popupShown = false;
+
+        window.addEventListener( 'scroll', () => {
+            let scrolly = window.scrollY;
+            let innerHeight = window.innerHeight;
+            let bodyHeight = document.body.scrollHeight;
+
+            let total = bodyHeight - innerHeight;
+            let percent = Math.round( ( scrolly / total ) * 100 );
+
+            // Update circle
+            document.getElementById( "scrollCircle" ).innerText = percent + "%";
+
+            // Popup show only once
+            if ( percent >= 50 && !popupShown ) {
+                document.getElementById( "popupMsg" ).style.display = "block";
+                popupShown = true;
+
+                setTimeout( () => {
+                    document.getElementById( "popupMsg" ).style.display = "none";
+                }, 3000 );
             }
-        }, 1000 );
-
+        } );
 </script>

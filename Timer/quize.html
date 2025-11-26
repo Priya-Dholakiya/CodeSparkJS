@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Smart Life Manager — Demo</title>
+      <style>
+            :root {
+                  --bg: #f4f7fb;
+                  --card: #fff;
+                  --accent: #4a6cf7
+            }
+
+            body {
+                  font-family: Inter, system-ui;
+                  margin: 0;
+                  background: var(--bg);
+                  color: #222
+            }
+
+            .wrap {
+                  max-width: 1000px;
+                  margin: 20px auto;
+                  padding: 18px;
+            }
+
+            header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center
+            }
+
+            h1 {
+                  font-size: 20px;
+                  margin: 0
+            }
+
+            .grid {
+                  display: grid;
+                  grid-template-columns: 1fr 360px;
+                  gap: 16px;
+                  margin-top: 16px
+            }
+
+            .card {
+                  background: var(--card);
+                  padding: 14px;
+                  border-radius: 10px;
+                  box-shadow: 0 4px 16px rgba(15, 20, 30, 0.06)
+            }
+
+            button {
+                  background: var(--accent);
+                  color: #fff;
+                  border: 0;
+                  padding: 8px 12px;
+                  border-radius: 8px;
+                  cursor: pointer
+            }
+
+            .small {
+                  font-size: 13px;
+                  color: #666
+            }
+
+            .row {
+                  display: flex;
+                  gap: 8px;
+                  align-items: center;
+                  margin-top: 8px
+            }
+
+            ul {
+                  margin: 0;
+                  padding-left: 18px
+            }
+
+            input,
+            textarea,
+            select {
+                  width: 100%;
+                  padding: 8px;
+                  border-radius: 8px;
+                  border: 1px solid #ddd
+            }
+
+            .pill {
+                  display: inline-block;
+                  padding: 6px 10px;
+                  background: #eef2ff;
+                  border-radius: 999px;
+                  font-size: 13px
+            }
+      </style>
+</head>
+
+<body>
+      <div class="wrap">
+            <header>
+                  <h1>Smart Life Manager — Demo</h1>
+                  <div class="small">Logged in as <strong>Priya</strong></div>
+            </header>
+
+            <div class="grid">
+                  <!-- Main Column -->
+                  <div>
+                        <!-- 1. Quick Actions (behaviour tracking demo) -->
+                        <div class="card" id="actionsCard">
+                              <h3>Quick Actions (click to log behaviour)</h3>
+                              <div class="row">
+                                    <button id="btnLaundry">Did Laundry</button>
+                                    <button id="btnShop">Shopping</button>
+                                    <button id="btnStudy">Studied</button>
+                                    <button id="btnWater">Drank Water</button>
+                              </div>
+                              <p class="small">These clicks simulate user activities. The system will track frequency
+                                    and suggest reminders.</p>
+                              <hr />
+                              <h4>Activity Log</h4>
+                              <ul id="activityLog"></ul>
+                        </div>
+
+                        <!-- 2. Notes (auto-categorize) -->
+                        <div class="card" style="margin-top:12px">
+                              <h3>Quick Note (auto-sort)</h3>
+                              <textarea id="noteText" rows="3"
+                                    placeholder="Write: 'Buy pen drive tomorrow 5pm' or 'Call Mom tonight'"></textarea>
+                              <div class="row">
+                                    <button id="saveNote">Save Note</button>
+                                    <div class="small" id="noteMsg"></div>
+                              </div>
+                              <h4 style="margin-top:10px">Notes</h4>
+                              <ul id="notesList"></ul>
+                        </div>
+
+                        <!-- 3. Auto Planner -->
+                        <div class="card" style="margin-top:12px">
+                              <h3>One-click Smart Day Planner</h3>
+                              <p class="small">Generates a day plan based on detected patterns (e.g., if you often study
+                                    at night, it schedules study slot).</p>
+                              <div class="row">
+                                    <button id="generatePlan">Generate My Day</button>
+                                    <button id="clearData" style="background:#ff6b6b">Clear Data</button>
+                              </div>
+                              <h4 style="margin-top:10px">Today's Plan</h4>
+                              <ul id="planList"></ul>
+                        </div>
+                  </div>
+
+                  <!-- Right Column (widgets) -->
+                  <div>
+                        <div class="card">
+                              <h3>Status & Suggestions</h3>
+                              <p class="small">Productivity score</p>
+                              <div style="font-size:28px; font-weight:700" id="prodScore">—</div>
+                              <div style="margin-top:10px">
+                                    <h4>Smart Suggestions</h4>
+                                    <ul id="suggestions"></ul>
+                              </div>
+                        </div>
+
+                        <div class="card" style="margin-top:12px">
+                              <h3>Timers / Reminders</h3>
+                              <div class="row">
+                                    <input id="reminderText" placeholder="Reminder text (e.g., Drink water)" />
+                                    <button id="addRem">Add</button>
+                              </div>
+                              <div style="margin-top:10px">
+                                    <ul id="remList"></ul>
+                              </div>
+                        </div>
+
+                        <div class="card" style="margin-top:12px">
+                              <h3>Mood Input</h3>
+                              <select id="moodSelect">
+                                    <option value="">-- Select mood --</option>
+                                    <option value="tired">Tired</option>
+                                    <option value="stressed">Stressed</option>
+                                    <option value="happy">Happy</option>
+                                    <option value="neutral">Neutral</option>
+                              </select>
+                              <div class="row" style="margin-top:8px">
+                                    <button id="saveMood">Save Mood</button>
+                              </div>
+                              <div style="margin-top:8px" id="moodMsg" class="small"></div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <script>
+            /*
+              DEMO LOGIC EXPLAINED:
+              - activityLog: stores actions with timestamp -> saved in localStorage
+              - detectPatterns(): very simple frequency detection over last 30 days
+              - generatePlan(): creates a basic day plan using patterns
+              - notes: saved and auto-categorized by keywords (shopping, call, meeting, buy)
+              - reminders: small in-page timers using setInterval (no system notifications)
+              - mood: stores last mood and generates suggestion
+            */
+
+            // ---------- Utilities ----------
+            function qs( id ) { return document.getElementById( id ) }
+            function saveLS( key, val ) { localStorage.setItem( key, JSON.stringify( val ) ) }
+            function loadLS( key, def ) { try { let v = JSON.parse( localStorage.getItem( key ) ); return v || def } catch ( e ) { return def } }
+
+            // ---------- Data stores ----------
+            let activities = loadLS( 'demo_activities', [] ); // {type, time}
+            let notes = loadLS( 'demo_notes', [] ); // {text, category, when}
+            let reminders = loadLS( 'demo_reminders', [] ); // {id,text,ts}
+            let moods = loadLS( 'demo_moods', [] ); // {mood,ts}
+
+            // ---------- Render helpers ----------
+            function renderActivityLog() {
+                  const ul = qs( 'activityLog' ); ul.innerHTML = '';
+                  activities.slice().reverse().forEach( a => {
+                        const li = document.createElement( 'li' );
+                        li.textContent = `${ new Date( a.time ).toLocaleString() } — ${ a.type }`;
+                        ul.appendChild( li );
+                  } );
+            }
+            function renderNotes() {
+                  const ul = qs( 'notesList' ); ul.innerHTML = '';
+                  notes.slice().reverse().forEach( n => {
+                        const li = document.createElement( 'li' );
+                        li.innerHTML = `<strong>[${ n.category }]</strong> ${ n.text } <span class="small">(${ new Date( n.when ).toLocaleString() })</span>`;
+                        ul.appendChild( li );
+                  } );
+            }
+            function renderPlan( plan ) {
+                  const ul = qs( 'planList' ); ul.innerHTML = '';
+                  plan.forEach( item => {
+                        const li = document.createElement( 'li' );
+                        li.textContent = `${ item.time } — ${ item.task }`;
+                        ul.appendChild( li );
+                  } );
+            }
+            function renderSuggestions( list ) {
+                  const ul = qs( 'suggestions' ); ul.innerHTML = '';
+                  list.forEach( s => {
+                        const li = document.createElement( 'li' );
+                        li.textContent = s;
+                        ul.appendChild( li );
+                  } );
+            }
+            function renderReminders() {
+                  const ul = qs( 'remList' ); ul.innerHTML = '';
+                  reminders.forEach( r => {
+                        const li = document.createElement( 'li' );
+                        li.innerHTML = `<span class="pill">${ new Date( r.ts ).toLocaleTimeString() }</span> ${ r.text } <button style="margin-left:8px" data-id="${ r.id }">x</button>`;
+                        ul.appendChild( li );
+                  } );
+            }
+
+            // ---------- Behavior logging (buttons) ----------
+            [ 'Laundry', 'Shopping', 'Study', 'Water' ].forEach( label => {
+                  const btn = {
+                        Laundry: qs( 'btnLaundry' ),
+                        Shopping: qs( 'btnShop' ),
+                        Study: qs( 'btnStudy' ),
+                        Water: qs( 'btnWater' )
+                  }[ label ];
+                  btn.addEventListener( 'click', () => {
+                        const entry = { type: label, time: Date.now() };
+                        activities.push( entry ); saveLS( 'demo_activities', activities );
+                        renderActivityLog();
+                        qs( 'noteMsg' ).textContent = `${ label } logged`;
+                        setTimeout( () => qs( 'noteMsg' ).textContent = '', 1400 );
+                        // simple immediate suggestion
+                        if ( label === 'Water' ) addSuggestion( 'Good — water logged just now' );
+                  } );
+            } );
+
+            // ---------- Pattern detection (simple) ----------
+            function detectPatterns() {
+                  // Count occurrences by type over last 30 days (ms)
+                  const now = Date.now();
+                  const days30 = 1000 * 60 * 60 * 24 * 30;
+                  const recent = activities.filter( a => now - a.time < days30 );
+                  const counts = {};
+                  recent.forEach( a => counts[ a.type ] = ( counts[ a.type ] || 0 ) + 1 );
+                  // produce simple rules: if >3 times in 30 days -> regular
+                  const patterns = [];
+                  Object.keys( counts ).forEach( k => {
+                        if ( counts[ k ] >= 3 ) patterns.push( { activity: k, count: counts[ k ] } );
+                  } );
+                  return patterns;
+            }
+
+            // ---------- Generate smart day (very simple heuristic) ----------
+            function generateDayPlan() {
+                  const patterns = detectPatterns();
+                  // base schedule (example)
+                  const plan = [
+                        { time: '08:00', task: 'Breakfast / Freshen up' },
+                        { time: '10:00', task: 'College / Work slot' },
+                        { time: '13:00', task: 'Lunch break' },
+                        { time: '15:00', task: 'Focus session' },
+                        { time: '18:00', task: 'Evening walk / Break' },
+                        { time: '20:00', task: 'Study / Project work' },
+                        { time: '23:00', task: 'Sleep' }
+                  ];
+                  // if patterns contain Study, move Focus session earlier
+                  if ( patterns.find( p => p.activity === 'Study' ) ) {
+                        plan.splice( 3, 0, { time: '14:00', task: 'Extra Study slot (based on your habit)' } );
+                  }
+                  // if Shopping pattern exists, suggest reminder
+                  if ( patterns.find( p => p.activity === 'Shopping' ) ) {
+                        addSuggestion( 'You usually shop periodically — check pantry this weekend.' );
+                  }
+                  // productivity score: simple function
+                  const score = Math.min( 100, 50 + ( patterns.length * 15 ) );
+                  qs( 'prodScore' ).textContent = score + '/100';
+                  renderPlan( plan );
+                  saveLS( 'demo_patterns', patterns );
+            }
+
+            // ---------- Notes auto-categorize ----------
+            function categorizeNote( text ) {
+                  const lower = text.toLowerCase();
+                  if ( /buy|shopping|pen drive|grocer|milk|shop/.test( lower ) ) return 'Shopping';
+                  if ( /call|mom|dad|phone|ring/.test( lower ) ) return 'Call';
+                  if ( /meeting|project|presentation|meet/.test( lower ) ) return 'Work';
+                  if ( /tomorrow|today|tonight|pm|am/.test( lower ) ) return 'Schedule';
+                  return 'General';
+            }
+            qs( 'saveNote' ).addEventListener( 'click', () => {
+                  const text = qs( 'noteText' ).value.trim();
+                  if ( !text ) return;
+                  const cat = categorizeNote( text );
+                  const n = { text, category: cat, when: Date.now() };
+                  notes.push( n ); saveLS( 'demo_notes', notes );
+                  renderNotes();
+                  qs( 'noteText' ).value = '';
+                  qs( 'noteMsg' ).textContent = `Saved as [${ cat }]`;
+                  setTimeout( () => qs( 'noteMsg' ).textContent = '', 1800 );
+                  // auto calendar if schedule-like:
+                  if ( cat === 'Schedule' ) {
+                        addSuggestion( `Detected schedule in note: "${ text }"` );
+                  }
+            } );
+
+            // ---------- Reminders (in-page timers) ----------
+            function addReminder( text, secondsFromNow = 60 ) {
+                  const id = Math.random().toString( 36 ).slice( 2, 9 );
+                  const ts = Date.now() + ( secondsFromNow * 1000 );
+                  reminders.push( { id, text, ts } ); saveLS( 'demo_reminders', reminders );
+                  renderReminders();
+            }
+            qs( 'addRem' ).addEventListener( 'click', () => {
+                  const t = qs( 'reminderText' ).value.trim(); if ( !t ) return;
+                  addReminder( t, 30 ); // demo: 30 seconds later alert
+                  qs( 'reminderText' ).value = '';
+            } );
+
+            // small loop to check reminders and show suggestion
+            setInterval( () => {
+                  const now = Date.now();
+                  let changed = false;
+                  reminders.forEach( ( r, idx ) => {
+                        if ( r.ts <= now ) {
+                              addSuggestion( `Reminder: ${ r.text }` );
+                              // remove triggered reminder
+                              reminders.splice( idx, 1 ); changed = true;
+                        }
+                  } );
+                  if ( changed ) { saveLS( 'demo_reminders', reminders ); renderReminders(); }
+            }, 1000 );
+
+            // allow delete reminder (delegation)
+            qs( 'remList' ).addEventListener( 'click', ( e ) => {
+                  if ( e.target.dataset.id ) {
+                        const id = e.target.dataset.id;
+                        reminders = reminders.filter( r => r.id !== id );
+                        saveLS( 'demo_reminders', reminders ); renderReminders();
+                  }
+            } );
+
+            // ---------- Suggestions engine ----------
+            let suggestionPool = loadLS( 'demo_suggestions', [] );
+            function addSuggestion( text ) {
+                  suggestionPool.unshift( { text, ts: Date.now() } );
+                  if ( suggestionPool.length > 8 ) suggestionPool.pop();
+                  saveLS( 'demo_suggestions', suggestionPool );
+                  renderSuggestions( suggestionPool.map( s => s.text ) );
+            }
+
+            // ---------- Mood handling ----------
+            qs( 'saveMood' ).addEventListener( 'click', () => {
+                  const mood = qs( 'moodSelect' ).value;
+                  if ( !mood ) return;
+                  moods.push( { mood, ts: Date.now() } ); saveLS( 'demo_moods', moods );
+                  qs( 'moodMsg' ).textContent = `Mood saved: ${ mood }`;
+                  // simple mood-based suggestion:
+                  if ( mood === 'tired' ) addSuggestion( 'You seem tired — short 10-min walk recommended.' );
+                  if ( mood === 'stressed' ) addSuggestion( 'Try 5-min breathing exercise.' );
+                  setTimeout( () => qs( 'moodMsg' ).textContent = '', 2000 );
+            } );
+
+            // ---------- Clear data ----------
+            qs( 'clearData' ).addEventListener( 'click', () => {
+                  if ( !confirm( 'Clear demo data?' ) ) return;
+                  activities = []; notes = []; reminders = []; moods = []; suggestionPool = [];
+                  saveLS( 'demo_activities', activities ); saveLS( 'demo_notes', notes ); saveLS( 'demo_reminders', reminders ); saveLS( 'demo_moods', moods ); saveLS( 'demo_suggestions', suggestionPool );
+                  renderActivityLog(); renderNotes(); renderReminders(); renderSuggestions( [] );
+                  qs( 'prodScore' ).textContent = '—';
+                  qs( 'planList' ).innerHTML = '';
+            } );
+
+            // ---------- Init render ----------
+            renderActivityLog(); renderNotes(); renderReminders(); renderSuggestions( suggestionPool.map( s => s.text ) );
+
+            // ---------- Generate plan button ----------
+            qs( 'generatePlan' ).addEventListener( 'click', () => generateDayPlan() );
+
+            /* ---------- Explanation (short):
+               - Behaviour tracking: every click stores time + type in activities[].
+               - detectPatterns(): checks last 30 days' frequency and detects recurring tasks.
+               - generateDayPlan(): uses patterns to slightly tweak default plan.
+               - notes auto-categorize: regex-based simple classifier.
+               - reminders: in-page alerts simulate notifications; in real app use Notifications API + service worker.
+               - persistence: localStorage used so demo retains data between reloads.
+               This prototype shows many core JS concepts: DOM, events, localStorage, timers, arrays/objects, regex, simple heuristics.
+            */
+      </script>
+</body>
+
+</html>
