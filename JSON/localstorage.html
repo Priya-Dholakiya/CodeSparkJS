@@ -1,44 +1,215 @@
-<form onsubmit="return submitForm(event)">
-      Enter Name : <input type="text" id="name" required><br><br>
-      Enter Age : <input type="number" id="age" required><br><br>
-      <input type="submit" value="Submit" style="width: 100px; height: 50px; font-size: 20px;">
-</form>
+<!DOCTYPE html>
+<html lang="en">
 
-<p id="Res" style="display:none; color: green;"></p>
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Local Storage CRUD</title>
+</head>
 
-<script>
-      var data = [
-            { name: "Priya", age: 22 },
-            { name: "Anu", age: 21 }
-      ];
-      startFunction();
+<body style="font-family: Arial, sans-serif; padding: 20px; background:#f7f7f7;">
 
-      function startFunction() {
-            var dataconvert = JSON.stringify( data );
-            localStorage.setItem( "Student_Data", dataconvert );
-      }
+      <!-- Popup Box -->
+      <div id="popup" style="position:fixed; top:20px; right:20px; background:#28a745; color:white; padding:15px 25px; 
+            border-radius:8px; font-size:18px; box-shadow:0 0 10px rgba(0,0,0,0.2); display:none;">
+      </div>
 
-      function submitForm( e ) {
-            e.preventDefault();
+      <form method="post" onsubmit="return InsertData(event)" style="margin-bottom:20px; padding:20px; background:white; border-radius:10px; 
+            box-shadow:0 0 10px rgba(0,0,0,0.1);">
 
-            var name = document.getElementById( "name" ).value;
-            var age = document.getElementById( "age" ).value;
+            <input type="hidden" id="studentId">
 
-            var newdata = {
-                  name: name,
-                  age: age
-            };
+            <label style="font-weight:bold;">Enter Name:</label><br>
+            <input type="text" id="name" required
+                  style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;"><br>
 
-            data.push( newdata );
-            startFunction();
+            <label style="font-weight:bold;">Enter Age:</label><br>
+            <input type="number" id="age" required
+                  style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;"><br>
 
-            document.getElementById( "Res" ).innerHTML = "Data Added Successfully!";
-            document.getElementById( "Res" ).style.display = "block";
+            <label style="font-weight:bold;">Enter Gender:</label><br>
+            <label><input type="radio" name="gender" id="genderMale" value="male"> Male</label>
+            <label style="margin-left:20px;"><input type="radio" id="genderFemale" name="gender" value="female">
+                  Female</label>
+            <br><br>
 
-            setTimeout( () => {
-                  document.getElementById( "Res" ).style.display = "none";
-            }, 3000 );
+            <label style="font-weight:bold;">Select Hobby:</label><br>
+            <label><input type="checkbox" id="hobby1" value="Reading"> Reading</label>
+            <label style="margin-left:20px;"><input type="checkbox" id="hobby2" value="Music"> Music</label>
+            <label style="margin-left:20px;"><input type="checkbox" id="hobby3" value="Cycling"> Cycling</label>
+            <br><br>
 
-            return false;
-      }
-</script>
+            <label style="font-weight:bold;">Select Item (Dropdown):</label><br>
+            <select id="dropList"
+                  style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;">
+            </select>
+            <br>
+
+            <input type="text" id="dropName" placeholder="Add/Update Item"
+                  style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;">
+            <br>
+
+            <input type="submit" id="submit" value="Submit" style="background:#007bff; color:white; border:none; padding:10px 20px; 
+                  border-radius:6px; cursor:pointer; font-size:16px;">
+      </form>
+
+      <div id="dataResult" style="margin-top:20px;"></div>
+
+      <script>
+            var data = [
+                  { name: "manish", age: 19, gender: "male", hobby: "Reading,Music", item: "Item1" },
+                  { name: "Umesh", age: 20, gender: "male", hobby: "Cycling", item: "Item2" }
+            ];
+
+            function startFunction() {
+                  localStorage.setItem( 'studentData', JSON.stringify( data ) );
+            }
+
+            function showPopup( msg ) {
+                  let popup = document.getElementById( "popup" );
+                  popup.innerHTML = msg;
+                  popup.style.display = "block";
+                  setTimeout( () => { popup.style.display = "none"; }, 1200 );
+            }
+
+            function fetchData() {
+                  let record = JSON.parse( localStorage.getItem( 'studentData' ) );
+                  if ( record != null ) data = record;
+
+                  var tableData = `
+                    <table style="width:100%; border-collapse:collapse; background:white; 
+                    box-shadow:0 0 10px rgba(0,0,0,0.1);">
+                    <tr style="background:#007bff; color:white;">
+                        <th style="padding:10px;">No</th>
+                        <th style="padding:10px;">Name</th>
+                        <th style="padding:10px;">Age</th>
+                        <th style="padding:10px;">Gender</th>
+                        <th style="padding:10px;">Hobby</th>
+                        <th style="padding:10px;">Item</th>
+                        <th style="padding:10px;">Delete</th>
+                        <th style="padding:10px;">Update</th>
+                    </tr>`;
+
+                  data.map( ( v, i ) => {
+                        tableData += `
+                        <tr>
+                              <td style="padding:10px; border:1px solid #ddd;">${ i + 1 }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.name }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.age }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.gender }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.hobby }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.item }</td>
+
+                              <td style="padding:10px; border:1px solid #ddd;">
+                                    <button onclick="deleteData(${ i })"
+                                          style="background:#dc3545; color:white; border:none; padding:6px 12px; 
+                                          border-radius:4px; cursor:pointer;">Delete</button>
+                              </td>
+
+                              <td style="padding:10px; border:1px solid #ddd;">
+                                    <button onclick="getSingleObject(${ i })"
+                                          style="background:#28a745; color:white; border:none; padding:6px 12px; 
+                                          border-radius:4px; cursor:pointer;">Update</button>
+                              </td>
+                        </tr>`;
+                  } );
+
+                  tableData += "</table>";
+                  document.getElementById( "dataResult" ).innerHTML = tableData;
+
+                  printDrop();
+            }
+
+            // Dropdown List (Selection) Logic
+            function printDrop() {
+                  let drop = document.getElementById( "dropList" );
+                  drop.innerHTML = "";
+                  data.forEach( ( v, i ) => {
+                        let opt = document.createElement( "option" );
+                        opt.value = i;
+                        opt.innerText = v.item || "";
+                        drop.appendChild( opt );
+                  } );
+            }
+
+            function getSingleObject( pos ) {
+                  document.getElementById( 'studentId' ).value = pos;
+                  document.getElementById( 'name' ).value = data[ pos ].name;
+                  document.getElementById( 'age' ).value = data[ pos ].age;
+
+                  let gender = data[ pos ].gender;
+                  document.getElementById( 'genderMale' ).checked = ( gender === 'male' );
+                  document.getElementById( 'genderFemale' ).checked = ( gender === 'female' );
+
+                  let hobbies = data[ pos ].hobby;
+                  document.getElementById( 'hobby1' ).checked = hobbies.includes( 'Reading' );
+                  document.getElementById( 'hobby2' ).checked = hobbies.includes( 'Music' );
+                  document.getElementById( 'hobby3' ).checked = hobbies.includes( 'Cycling' );
+
+                  document.getElementById( 'dropName' ).value = data[ pos ].item || "";
+                  document.getElementById( 'submit' ).value = 'Update';
+            }
+
+            function deleteData( pos ) {
+                  data.splice( pos, 1 );
+                  startFunction();
+                  fetchData();
+                  showPopup( "Record Deleted" );
+            }
+
+            function InsertData( e ) {
+                  e.preventDefault();
+
+                  var name = document.getElementById( 'name' ).value;
+                  var age = document.getElementById( 'age' ).value;
+                  var studentId = document.getElementById( 'studentId' ).value;
+                  var item = document.getElementById( 'dropName' ).value.trim() || "N/A";
+
+                  var gender = document.getElementById( 'genderMale' ).checked
+                        ? "male"
+                        : document.getElementById( 'genderFemale' ).checked
+                              ? "female"
+                              : "";
+
+                  var hobby = [];
+                  if ( document.getElementById( 'hobby1' ).checked ) hobby.push( "Reading" );
+                  if ( document.getElementById( 'hobby2' ).checked ) hobby.push( "Music" );
+                  if ( document.getElementById( 'hobby3' ).checked ) hobby.push( "Cycling" );
+
+                  var obj = {
+                        name: name,
+                        age: age,
+                        gender: gender,
+                        hobby: hobby.join( ',' ),
+                        item: item
+                  };
+
+                  if ( studentId === "" ) {
+                        data.push( obj );
+                        showPopup( "Record Inserted" );
+                  } else {
+                        data[ studentId ] = obj;
+                        showPopup( "Record Updated" );
+                  }
+
+                  startFunction();
+                  fetchData();
+
+                  document.getElementById( 'name' ).value = '';
+                  document.getElementById( 'age' ).value = '';
+                  document.getElementById( 'studentId' ).value = '';
+                  document.getElementById( 'dropName' ).value = '';
+                  document.getElementById( 'genderMale' ).checked = false;
+                  document.getElementById( 'genderFemale' ).checked = false;
+                  document.getElementById( 'hobby1' ).checked = false;
+                  document.getElementById( 'hobby2' ).checked = false;
+                  document.getElementById( 'hobby3' ).checked = false;
+                  document.getElementById( 'submit' ).value = 'Submit';
+            }
+
+            fetchData();
+      </script>
+
+</body>
+
+</html>

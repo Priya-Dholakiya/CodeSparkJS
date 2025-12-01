@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Quiz Game</title>
+</head>
+
+<body
+      style="font-family: Arial, sans-serif; background:#f0f2f5; display:flex; justify-content:center; align-items:center; height:100vh;">
+
+      <div id="quizContainer"
+            style="width:90%; max-width:600px; background:white; padding:20px; border-radius:12px; box-shadow:0 0 20px rgba(0,0,0,0.2);">
+
+            <h2 id="question" style="margin-bottom:20px;">Question will appear here</h2>
+
+            <div id="options" style="display:flex; flex-direction:column;"></div>
+
+            <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
+                  <div id="timer" style="font-weight:bold; color:#007bff;">Time Left: 10s</div>
+                  <button id="nextBtn"
+                        style="background:#28a745; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; display:none;">Next</button>
+            </div>
+
+            <div style="margin-top:20px;">
+                  <div id="progress" style="height:10px; width:100%; background:#ddd; border-radius:5px;">
+                        <div id="progressBar" style="height:10px; width:0%; background:#007bff; border-radius:5px;">
+                        </div>
+                  </div>
+            </div>
+
+      </div>
+
+      <script>
+            let questions = [
+                  { q: "What is the capital of France?", options: [ "Paris", "London", "Berlin", "Madrid" ], answer: "Paris" },
+                  { q: "Which is the largest planet?", options: [ "Earth", "Jupiter", "Mars", "Venus" ], answer: "Jupiter" },
+                  { q: "Who wrote Hamlet?", options: [ "Shakespeare", "Tolstoy", "Hemingway", "Huxley" ], answer: "Shakespeare" },
+                  { q: "What is 5 + 7?", options: [ "10", "12", "14", "11" ], answer: "12" },
+                  { q: "Which ocean is the largest?", options: [ "Atlantic", "Indian", "Pacific", "Arctic" ], answer: "Pacific" },
+                  { q: "Which year did India gain independence?", options: [ "1947", "1950", "1935", "1942" ], answer: "1947" },
+                  { q: "What is the chemical symbol for water?", options: [ "H2O", "O2", "CO2", "HO" ], answer: "H2O" },
+                  { q: "Which country has the maple leaf in its flag?", options: [ "USA", "Canada", "UK", "Australia" ], answer: "Canada" },
+                  { q: "Who painted the Mona Lisa?", options: [ "Van Gogh", "Da Vinci", "Picasso", "Michelangelo" ], answer: "Da Vinci" },
+                  { q: "Which gas do humans breathe in?", options: [ "Oxygen", "Nitrogen", "Carbon Dioxide", "Helium" ], answer: "Oxygen" }
+            ];
+
+            let currentQuestion = 0;
+            let score = 0;
+            let timeLeft = 10;
+            let timerInterval;
+
+            function showQuestion() {
+                  document.getElementById( "nextBtn" ).style.display = "none";
+                  timeLeft = 10;
+                  document.getElementById( "timer" ).innerText = "Time Left: " + timeLeft + "s";
+
+                  document.getElementById( "question" ).innerText = questions[ currentQuestion ].q;
+                  let optionsDiv = document.getElementById( "options" );
+                  optionsDiv.innerHTML = "";
+                  questions[ currentQuestion ].options.forEach( opt => {
+                        let btn = document.createElement( "button" );
+                        btn.innerText = opt;
+                        btn.style.cssText = "margin:5px 0; padding:10px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; font-size:16px;";
+                        btn.onclick = () => checkAnswer( opt, btn );
+                        optionsDiv.appendChild( btn );
+                  } );
+
+                  updateProgress();
+                  timerInterval = setInterval( updateTimer, 1000 );
+            }
+
+            function updateTimer() {
+                  timeLeft--;
+                  document.getElementById( "timer" ).innerText = "Time Left: " + timeLeft + "s";
+                  if ( timeLeft <= 0 ) {
+                        clearInterval( timerInterval );
+                        disableOptions();
+                        document.getElementById( "nextBtn" ).style.display = "inline-block";
+                  }
+            }
+
+            function checkAnswer( selected, btn ) {
+                  clearInterval( timerInterval );
+                  disableOptions();
+                  if ( selected === questions[ currentQuestion ].answer ) {
+                        score++;
+                        btn.style.background = "#28a745";
+                  } else {
+                        btn.style.background = "#dc3545";
+                        // highlight correct
+                        Array.from( document.getElementById( "options" ).children ).forEach( b => {
+                              if ( b.innerText === questions[ currentQuestion ].answer ) b.style.background = "#28a745";
+                        } );
+                  }
+                  document.getElementById( "nextBtn" ).style.display = "inline-block";
+            }
+
+            function disableOptions() {
+                  Array.from( document.getElementById( "options" ).children ).forEach( b => b.disabled = true );
+            }
+
+            function updateProgress() {
+                  let progress = ( ( currentQuestion ) / questions.length ) * 100;
+                  document.getElementById( "progressBar" ).style.width = progress + "%";
+            }
+
+            document.getElementById( "nextBtn" ).onclick = () => {
+                  currentQuestion++;
+                  if ( currentQuestion < questions.length ) {
+                        showQuestion();
+                  } else {
+                        document.getElementById( "quizContainer" ).innerHTML = `<h2 style="text-align:center;">Quiz Finished!<br>Your Score: ${ score } / ${ questions.length }</h2>`;
+                  }
+            }
+
+            showQuestion();
+      </script>
+
+</body>
+
+</html>
