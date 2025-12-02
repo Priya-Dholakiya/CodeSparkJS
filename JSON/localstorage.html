@@ -39,14 +39,20 @@
             <label style="margin-left:20px;"><input type="checkbox" id="hobby3" value="Cycling"> Cycling</label>
             <br><br>
 
-            <label style="font-weight:bold;">Select Item (Dropdown):</label><br>
+            <label style="font-weight:bold;">Select City:</label><br>
             <select id="dropList"
                   style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;">
+                  <option value="">--Select City--</option>
+                  <option value="Surat">Surat</option>
+                  <option value="Ahmedabad">Ahmedabad</option>
+                  <option value="Rajkot">Rajkot</option>
+                  <option value="Pune">Pune</option>
             </select>
             <br>
 
-            <input type="text" id="dropName" placeholder="Add/Update Item"
-                  style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;">
+            <label style="font-weight:bold;">Enter Address/Description:</label><br>
+            <textarea id="description" rows="4" placeholder="Type here..."
+                  style="width:100%; padding:10px; margin:5px 0 15px; border:1px solid #ccc; border-radius:6px;"></textarea>
             <br>
 
             <input type="submit" id="submit" value="Submit" style="background:#007bff; color:white; border:none; padding:10px 20px; 
@@ -57,8 +63,8 @@
 
       <script>
             var data = [
-                  { name: "manish", age: 19, gender: "male", hobby: "Reading,Music", item: "Item1" },
-                  { name: "Umesh", age: 20, gender: "male", hobby: "Cycling", item: "Item2" }
+                  { name: "manish", age: 19, gender: "male", hobby: "Reading,Music", city: "Surat", description: "Address 1" },
+                  { name: "Umesh", age: 20, gender: "male", hobby: "Cycling", city: "Rajkot", description: "Address 2" }
             ];
 
             function startFunction() {
@@ -85,7 +91,8 @@
                         <th style="padding:10px;">Age</th>
                         <th style="padding:10px;">Gender</th>
                         <th style="padding:10px;">Hobby</th>
-                        <th style="padding:10px;">Item</th>
+                        <th style="padding:10px;">City</th>
+                        <th style="padding:10px;">Description</th>
                         <th style="padding:10px;">Delete</th>
                         <th style="padding:10px;">Update</th>
                     </tr>`;
@@ -98,7 +105,8 @@
                               <td style="padding:10px; border:1px solid #ddd;">${ v.age }</td>
                               <td style="padding:10px; border:1px solid #ddd;">${ v.gender }</td>
                               <td style="padding:10px; border:1px solid #ddd;">${ v.hobby }</td>
-                              <td style="padding:10px; border:1px solid #ddd;">${ v.item }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.city }</td>
+                              <td style="padding:10px; border:1px solid #ddd;">${ v.description || '' }</td>
 
                               <td style="padding:10px; border:1px solid #ddd;">
                                     <button onclick="deleteData(${ i })"
@@ -116,20 +124,6 @@
 
                   tableData += "</table>";
                   document.getElementById( "dataResult" ).innerHTML = tableData;
-
-                  printDrop();
-            }
-
-            // Dropdown List (Selection) Logic
-            function printDrop() {
-                  let drop = document.getElementById( "dropList" );
-                  drop.innerHTML = "";
-                  data.forEach( ( v, i ) => {
-                        let opt = document.createElement( "option" );
-                        opt.value = i;
-                        opt.innerText = v.item || "";
-                        drop.appendChild( opt );
-                  } );
             }
 
             function getSingleObject( pos ) {
@@ -146,7 +140,8 @@
                   document.getElementById( 'hobby2' ).checked = hobbies.includes( 'Music' );
                   document.getElementById( 'hobby3' ).checked = hobbies.includes( 'Cycling' );
 
-                  document.getElementById( 'dropName' ).value = data[ pos ].item || "";
+                  document.getElementById( 'dropList' ).value = data[ pos ].city || '';
+                  document.getElementById( 'description' ).value = data[ pos ].description || '';
                   document.getElementById( 'submit' ).value = 'Update';
             }
 
@@ -163,7 +158,8 @@
                   var name = document.getElementById( 'name' ).value;
                   var age = document.getElementById( 'age' ).value;
                   var studentId = document.getElementById( 'studentId' ).value;
-                  var item = document.getElementById( 'dropName' ).value.trim() || "N/A";
+                  var city = document.getElementById( 'dropList' ).value;
+                  var description = document.getElementById( 'description' ).value.trim() || "";
 
                   var gender = document.getElementById( 'genderMale' ).checked
                         ? "male"
@@ -181,7 +177,8 @@
                         age: age,
                         gender: gender,
                         hobby: hobby.join( ',' ),
-                        item: item
+                        city: city,
+                        description: description
                   };
 
                   if ( studentId === "" ) {
@@ -195,10 +192,12 @@
                   startFunction();
                   fetchData();
 
+                  // Reset form
                   document.getElementById( 'name' ).value = '';
                   document.getElementById( 'age' ).value = '';
                   document.getElementById( 'studentId' ).value = '';
-                  document.getElementById( 'dropName' ).value = '';
+                  document.getElementById( 'dropList' ).value = '';
+                  document.getElementById( 'description' ).value = '';
                   document.getElementById( 'genderMale' ).checked = false;
                   document.getElementById( 'genderFemale' ).checked = false;
                   document.getElementById( 'hobby1' ).checked = false;
