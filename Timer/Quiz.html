@@ -7,117 +7,102 @@
       <title>Quiz Game</title>
 </head>
 
-<body
-      style="font-family: Arial, sans-serif; background:#f0f2f5; display:flex; justify-content:center; align-items:center; height:100vh;">
+<body style="font-family:Arial, sans-serif; background:#f0f2f5; display:flex; justify-content:center; align-items:center; height:100vh;">
 
-      <div id="quizContainer"
-            style="width:90%; max-width:600px; background:white; padding:20px; border-radius:12px; box-shadow:0 0 20px rgba(0,0,0,0.2);">
+      <div id="mainBox" style="width:90%; max-width:600px; background:white; padding:20px; border-radius:12px; box-shadow:0 0 20px rgba(0,0,0,0.2);">
 
-            <h2 id="question" style="margin-bottom:20px;">Question will appear here</h2>
-
-            <div id="options" style="display:flex; flex-direction:column;"></div>
-
-            <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
-                  <div id="timer" style="font-weight:bold; color:#007bff;">Time Left: 10s</div>
+            <h2 id="qText" style="margin-bottom:20px;">Question</h2>
+            <div id="optArea" style="display:flex; flex-direction:column;"></div>
+            <div style="margin-top:20px; display:flex; justify-content:space-between;">
+                  <div id="timeBox" style="font-weight:bold; color:#007bff;">Time Left: 10s</div>
                   <button id="nextBtn"
                         style="background:#28a745; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; display:none;">Next</button>
             </div>
-
             <div style="margin-top:20px;">
-                  <div id="progress" style="height:10px; width:100%; background:#ddd; border-radius:5px;">
-                        <div id="progressBar" style="height:10px; width:0%; background:#007bff; border-radius:5px;">
-                        </div>
+                  <div style="height:10px; width:100%; background:#ddd; border-radius:5px;">
+                        <div id="line" style="height:10px; width:0%; background:#007bff; border-radius:5px;"></div>
                   </div>
             </div>
-
       </div>
-
       <script>
-            let questions = [
-                  { q: "What is the capital of France?", options: [ "Paris", "London", "Berlin", "Madrid" ], answer: "Paris" },
-                  { q: "Which is the largest planet?", options: [ "Earth", "Jupiter", "Mars", "Venus" ], answer: "Jupiter" },
-                  { q: "Who wrote Hamlet?", options: [ "Shakespeare", "Tolstoy", "Hemingway", "Huxley" ], answer: "Shakespeare" },
-                  { q: "What is 5 + 7?", options: [ "10", "12", "14", "11" ], answer: "12" },
-                  { q: "Which ocean is the largest?", options: [ "Atlantic", "Indian", "Pacific", "Arctic" ], answer: "Pacific" },
-                  { q: "Which year did India gain independence?", options: [ "1947", "1950", "1935", "1942" ], answer: "1947" },
-                  { q: "What is the chemical symbol for water?", options: [ "H2O", "O2", "CO2", "HO" ], answer: "H2O" },
-                  { q: "Which country has the maple leaf in its flag?", options: [ "USA", "Canada", "UK", "Australia" ], answer: "Canada" },
-                  { q: "Who painted the Mona Lisa?", options: [ "Van Gogh", "Da Vinci", "Picasso", "Michelangelo" ], answer: "Da Vinci" },
-                  { q: "Which gas do humans breathe in?", options: [ "Oxygen", "Nitrogen", "Carbon Dioxide", "Helium" ], answer: "Oxygen" }
+            const quiz = [
+                  { q: "What is the capital of France?", opts: ["Paris", "London", "Berlin", "Madrid"], ans: "Paris" },
+                  { q: "Which is the largest planet?", opts: ["Earth", "Jupiter", "Mars", "Venus"], ans: "Jupiter" },
+                  { q: "Who wrote Hamlet?", opts: ["Shakespeare", "Tolstoy", "Hemingway", "Huxley"], ans: "Shakespeare" },
+                  { q: "What is 5 + 7?", opts: ["10", "12", "14", "11"], ans: "12" },
+                  { q: "Which ocean is the largest?", opts: ["Atlantic", "Indian", "Pacific", "Arctic"], ans: "Pacific" },
+                  { q: "Which year did India gain independence?", opts: ["1947", "1950", "1935", "1942"], ans: "1947" },
+                  { q: "What is the chemical symbol for water?", opts: ["H2O", "O2", "CO2", "HO"], ans: "H2O" },
+                  { q: "Which country has the maple leaf in its flag?", opts: ["USA", "Canada", "UK", "Australia"], ans: "Canada" },
+                  { q: "Who painted the Mona Lisa?", opts: ["Van Gogh", "Da Vinci", "Picasso", "Michelangelo"], ans: "Da Vinci" },
+                  { q: "Which gas do humans breathe in?", opts: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Helium"], ans: "Oxygen" }
             ];
-
-            let currentQuestion = 0;
-            let score = 0;
-            let timeLeft = 10;
-            let timerInterval;
-
-            function showQuestion() {
-                  document.getElementById( "nextBtn" ).style.display = "none";
-                  timeLeft = 10;
-                  document.getElementById( "timer" ).innerText = "Time Left: " + timeLeft + "s";
-
-                  document.getElementById( "question" ).innerText = questions[ currentQuestion ].q;
-                  let optionsDiv = document.getElementById( "options" );
-                  optionsDiv.innerHTML = "";
-                  questions[ currentQuestion ].options.forEach( opt => {
-                        let btn = document.createElement( "button" );
-                        btn.innerText = opt;
-                        btn.style.cssText = "margin:5px 0; padding:10px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; font-size:16px;";
-                        btn.onclick = () => checkAnswer( opt, btn );
-                        optionsDiv.appendChild( btn );
-                  } );
-
-                  updateProgress();
-                  timerInterval = setInterval( updateTimer, 1000 );
+            let index = 0;
+            let marks = 0;
+            let sec = 10;
+            let run;
+            function startQuiz() {
+                  document.getElementById("nextBtn").style.display = "none";
+                  sec = 10;
+                  document.getElementById("timeBox").innerText = "Time Left: " + sec + "s";
+                  let q = quiz[index];
+                  document.getElementById("qText").innerText = q.q;
+                  let box = document.getElementById("optArea");
+                  box.innerHTML = "";
+                  q.opts.forEach(op => {
+                        let b = document.createElement("button");
+                        b.innerText = op;
+                        b.style.cssText = "margin:5px 0; padding:10px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; font-size:16px;";
+                        b.onclick = () => check(op, b);
+                        box.appendChild(b);
+                  });
+                  progress();
+                  run = setInterval(timer, 1000);
             }
-
-            function updateTimer() {
-                  timeLeft--;
-                  document.getElementById( "timer" ).innerText = "Time Left: " + timeLeft + "s";
-                  if ( timeLeft <= 0 ) {
-                        clearInterval( timerInterval );
-                        disableOptions();
-                        document.getElementById( "nextBtn" ).style.display = "inline-block";
+            function timer() {
+                  sec--;
+                  document.getElementById("timeBox").innerText = "Time Left: " + sec + "s";
+                  if (sec <= 0) {
+                        clearInterval(run);
+                        lock();
+                        document.getElementById("nextBtn").style.display = "inline-block";
                   }
             }
-
-            function checkAnswer( selected, btn ) {
-                  clearInterval( timerInterval );
-                  disableOptions();
-                  if ( selected === questions[ currentQuestion ].answer ) {
-                        score++;
+            function check(sel, btn) {
+                  clearInterval(run);
+                  lock();
+                  if (sel === quiz[index].ans) {
+                        marks++;
                         btn.style.background = "#28a745";
                   } else {
                         btn.style.background = "#dc3545";
-                        // highlight correct
-                        Array.from( document.getElementById( "options" ).children ).forEach( b => {
-                              if ( b.innerText === questions[ currentQuestion ].answer ) b.style.background = "#28a745";
-                        } );
+                        let all = document.getElementById("optArea").children;
+                        for (let i = 0; i < all.length; i++) {
+                              if (all[i].innerText === quiz[index].ans) {
+                                    all[i].style.background = "#28a745";
+                              }
+                        }
                   }
-                  document.getElementById( "nextBtn" ).style.display = "inline-block";
+                  document.getElementById("nextBtn").style.display = "inline-block";
             }
-
-            function disableOptions() {
-                  Array.from( document.getElementById( "options" ).children ).forEach( b => b.disabled = true );
+            function lock() {
+                  let all = document.getElementById("optArea").children;
+                  for (let i = 0; i < all.length; i++) all[i].disabled = true;
             }
-
-            function updateProgress() {
-                  let progress = ( ( currentQuestion ) / questions.length ) * 100;
-                  document.getElementById( "progressBar" ).style.width = progress + "%";
+            function progress() {
+                  let p = (index / quiz.length) * 100;
+                  document.getElementById("line").style.width = p + "%";
             }
-
-            document.getElementById( "nextBtn" ).onclick = () => {
-                  currentQuestion++;
-                  if ( currentQuestion < questions.length ) {
-                        showQuestion();
+            document.getElementById("nextBtn").onclick = () => {
+                  index++;
+                  if (index < quiz.length) {
+                        startQuiz();
                   } else {
-                        document.getElementById( "quizContainer" ).innerHTML = `<h2 style="text-align:center;">Quiz Finished!<br>Your Score: ${ score } / ${ questions.length }</h2>`;
+                        document.getElementById("mainBox").innerHTML =
+                              `<h2 style="text-align:center;">Quiz Completed!<br>Your Score: ${marks} / ${quiz.length}</h2>`;
                   }
-            }
-
-            showQuestion();
+            };
+            startQuiz();
       </script>
-
 </body>
-
 </html>
