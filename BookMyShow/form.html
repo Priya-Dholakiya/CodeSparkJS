@@ -3,36 +3,167 @@
 
 <head>
       <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>
-            Movie ,Tickets ,Plays ,Sports ,Event & Cinemas Near Your city</title>
-      <!-- favicon -->
+      <title>Add Movie</title>
       <link rel="icon" type="image/png" href="Images/favicon.png">
-      <!-- Css-file -->
-      <link rel="stylesheet" href="style.css">
-      <!-- Bootstrap CSS -->
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<body>
-      <!-- header-section -->
-      <header class="bms-header">
-            <div class="left">
-                  <img src="Images/logo.png" class="logo">
+<body style="margin:0; font-family:Arial; background:#f5f5f5;">
+
+      <header
+            style="height:64px; padding:13px 40px; display:flex; align-items:center; justify-content:space-between; background:#fff;">
+            <div>
+                  <img src="Images/logo.png" style="height:35px;">
             </div>
-            <div class="center">
-                  <input type="search" placeholder="Search for Movies, Events, Plays, Sports and Activities">
+
+            <div style="flex:1; padding:0 25px;">
+                  <input type="search" placeholder="Search for Movies"
+                        style="width:100%; padding:10px 15px; border-radius:6px; border:1px solid #ccc;">
             </div>
-            <div class="right">
-                  <select class="city">
+
+            <div style="display:flex; align-items:center; gap:20px;">
+                  <select style="border:none;">
                         <option>Mumbai</option>
                         <option>Delhi</option>
                         <option>Surat</option>
                         <option>Chennai</option>
                   </select>
-                  <button class="signin">Sign in</button>
-                  <img src="Images/toggle.png" class="toggle">
+
+                  <button style="padding:8px 20px; background:#F84464; border:none; color:white; border-radius:6px;">
+                        Sign in
+                  </button>
             </div>
       </header>
-      <!-- form -->
+
+      <div style="width:400px; margin:40px auto; background:white; padding:25px; border-radius:10px;">
+
+            <h3 style="text-align:center; margin-bottom:20px;">Add Movie</h3>
+
+            <select id="movieSelect" onchange="autoFill()" style="width:100%; padding:10px; margin-bottom:15px;">
+                  <option value="">Select Movie</option>
+                  
+            </select>
+
+            <input id="title" placeholder="Title" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input id="rating" placeholder="Rating" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input id="votes" placeholder="Votes" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input id="type" placeholder="Type" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input id="lang" placeholder="Language" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input id="img" placeholder="Image URL" style="width:100%; padding:10px; margin-bottom:10px;">
+            <input id="trailer" placeholder="Trailer Link" style="width:100%; padding:10px; margin-bottom:15px;">
+
+            <button onclick="saveMovie()"
+                  style="width:100%; padding:12px; background:#F84464; color:white; border:none; border-radius:6px;">
+                  Save Movie
+            </button>
+
+      </div>
+
+      <script>
+            const moviesData = [
+                  {
+                        title: "Zootopia 2",
+                        rating: "9.0",
+                        votes: "3.9k",
+                        type: "Animation",
+                        lang: "English",
+                        img: "https://tse2.mm.bing.net/th/id/OIP.Mv7Qvxb1ubi0nb1w3vZ0DwHaLH?pid=Api&P=0&h=180",
+                        trailer: "https://www.youtube.com/watch?v=BjkIOU5PhyQ"
+                  },
+                  {
+                        title: "De De Pyaar De 2",
+                        rating: "8.4",
+                        votes: "33.5k",
+                        type: "Comedy",
+                        lang: "Hindi",
+                        img: "https://play-lh.googleusercontent.com/proxy/j6Ml1euv22vIxs2fLbh3Gru3-zLnc5jEwkcSQiWM2gFsGvPEGU2dHFhM_ex5aS4okWYxiFcCHbG5qneClHGfjeWFOg_b7-11n4_ZWOOuzPOMUXgW9HyR0zvMKtJCs1Liz9JTQ4nrnaN8qcv3qExEPYpc0j79QxgFBA3FDw=w240-h4800",
+                        trailer: "https://www.youtube.com/watch?v=59aIp7SfIIk"
+                  },
+                  {
+                        title: "Avatar 3",
+                        rating: "9.2",
+                        votes: "20k",
+                        type: "Sci-Fi",
+                        lang: "English",
+                        img: "https://mlpnk72yciwc.i.optimole.com/cqhiHLc.IIZS~2ef73/w:auto/h:auto/q:75/https://bleedingcool.com/wp-content/uploads/2022/11/AVATAR_THE_WAY_OF_WATER_1SHT_DIGITAL_LOAK_sRGB_V1.jpg",
+                        trailer: "https://www.youtube.com/watch?v=nb_fFj_0rq8"
+                  },
+                  {
+                        title: "Spider-Man: Beyond",
+                        rating: "8.8",
+                        votes: "12.4k",
+                        type: "Action",
+                        lang: "English",
+                        img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgluzFL3oi66p0W1mrbZ9vxhdEuBsdVTP75tQBUCWad9lt7NgxvfEqkAk5lT8Ap8XgNIvZi8n1XYiqiI21RTNEfVJL7ejf_PhkO_IAHgdjSIHvDEY6AHQ_hWEYeqyygZodUSnCWDRSrlKf1LxCXBmq00WdFfdZMybwj-L0NKmmMMf5LEqoB7g/s1600/amc-sv-poster-giveaway.webp",
+                        trailer: "https://www.youtube.com/watch?v=qclHAbmDOJI"
+                  },
+                  {
+                        title: "The Lost City",
+                        rating: "7.9",
+                        votes: "8.2k",
+                        type: "Adventure",
+                        lang: "English",
+                        img: "https://image.tmdb.org/t/p/original/1hkHS8bRC37bn1Zn1yr7VBjLyX5.jpg",
+                        trailer: "https://www.youtube.com/watch?v=Lk4K4eBlkfU"
+                  },
+                  {
+                        title: "Black Panther: Wakanda Forever",
+                        rating: "8.7",
+                        votes: "15k",
+                        type: "Action",
+                        lang: "English",
+                        img: "https://lumiere-a.akamaihd.net/v1/images/pp_disney_blackpanther_wakandaforever_1289_d3419b8f.jpeg",
+                        trailer: "https://www.youtube.com/watch?v=3PJA_uXj_Zk"
+                  }
+            ];
+
+            // Populate select box
+            const movieSelect = document.getElementById( "movieSelect" );
+            moviesData.forEach( movie => {
+                  const option = document.createElement( "option" );
+                  option.value = movie.title;
+                  option.textContent = movie.title;
+                  movieSelect.appendChild( option );
+            } );
+
+            // AutoFill function
+            function autoFill() {
+                  const selectedTitle = movieSelect.value;
+                  if ( !selectedTitle ) return;
+
+                  const movie = moviesData.find( m => m.title === selectedTitle );
+                  if ( !movie ) return;
+
+                  title.value = movie.title;
+                  rating.value = movie.rating;
+                  votes.value = movie.votes;
+                  type.value = movie.type;
+                  lang.value = movie.lang;
+                  img.value = movie.img;
+                  trailer.value = movie.trailer;
+            }
+
+            // Save to localStorage
+            function saveMovie() {
+                  const movie = {
+                        title: title.value,
+                        rating: rating.value,
+                        votes: votes.value,
+                        type: type.value,
+                        lang: lang.value,
+                        img: img.value,
+                        trailer: trailer.value
+                  };
+
+                  const old = JSON.parse( localStorage.getItem( "movies" ) ) || [];
+                  old.push( movie );
+                  localStorage.setItem( "movies", JSON.stringify( old ) );
+
+                  alert( "Movie Saved" );
+                  location.href = "index.html";
+            }
+      </script>
+
+
+</body>
+
+</html>

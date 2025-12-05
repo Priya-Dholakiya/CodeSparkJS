@@ -1,44 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Slider</title>
+    <title>Fixed Size Slider</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eee;
+        }
+
+        .slider {
+            width: 1230px;
+            height: 291px;
+            overflow: hidden;
+            position: relative;
+            margin: 40px auto;
+            border-radius: 12px;
+        }
+
+        .track {
+            display: flex;
+            width: 4920px;
+            height: 291px;
+            transition: 0.6s ease;
+        }
+
+        .slide {
+            width: 1230px;
+            height: 291px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide:nth-child(1) {
+            background-image: url("https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80");
+        }
+
+        .slide:nth-child(2) {
+            background-image: url("https://images.unsplash.com/photo-1465101178521-f7aa7c160a26?auto=format&fit=crop&w=1200&q=80");
+        }
+
+        .slide:nth-child(3) {
+            background-image: url("https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?auto=format&fit=crop&w=1200&q=80");
+        }
+
+        .slide:nth-child(4) {
+            background-image: url("https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1200&q=80");
+        }
+
+        .btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: none;
+            font-size: 26px;
+            padding: 8px 14px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        #prev {
+            left: 10px;
+        }
+
+        #next {
+            right: 10px;
+        }
+    </style>
 </head>
+
 <body>
-    <div style="position: relative; width: 80%; margin: 40px auto; text-align: center;">
-        <div style="position: relative;">
-            <img src="image1.jpg" alt="Image 1" style="width: 100%; display: block;">
-            <img src="image2.jpg" alt="Image 2" style="width: 100%; display: none;">
-            <img src="image3.jpg" alt="Image 3" style="width: 100%; display: none;">
-            <!-- Add more images as needed -->
+
+    <div class="slider">
+        <div class="track" id="track">
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
         </div>
-        <button style="position: absolute; top: 50%; left: 0; transform: translateY(-50%); font-size: 18px; padding: 10px; border: none; cursor: pointer;" onclick="prevSlide()">Prev</button>
-        <button style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); font-size: 18px; padding: 10px; border: none; cursor: pointer;" onclick="nextSlide()">Next</button>
+
+        <button class="btn" id="prev">‹</button>
+        <button class="btn" id="next">›</button>
     </div>
 
     <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('img');
+        let index = 0;
+        let track = document.getElementById( "track" );
 
-        function showSlide(n) {
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].style.display = 'none';
-            }
-            slides[n].style.display = 'block';
+        document.getElementById( "next" ).onclick = function () {
+            index++;
+            if ( index > 3 ) index = 0;
+            track.style.transform = "translateX(-" + index * 1230 + "px)";
         }
 
-        function prevSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
+        document.getElementById( "prev" ).onclick = function () {
+            index--;
+            if ( index < 0 ) index = 3;
+            track.style.transform = "translateX(-" + index * 1230 + "px)";
         }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
-
-        showSlide(currentSlide);
     </script>
+
 </body>
+
 </html>

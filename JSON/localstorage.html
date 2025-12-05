@@ -171,7 +171,6 @@
                   if ( document.getElementById( 'hobby1' ).checked ) hobby.push( "Reading" );
                   if ( document.getElementById( 'hobby2' ).checked ) hobby.push( "Music" );
                   if ( document.getElementById( 'hobby3' ).checked ) hobby.push( "Cycling" );
-
                   var obj = {
                         name: name,
                         age: age,
@@ -180,7 +179,6 @@
                         city: city,
                         description: description
                   };
-
                   if ( studentId === "" ) {
                         data.push( obj );
                         showPopup( "Record Inserted" );
@@ -188,10 +186,8 @@
                         data[ studentId ] = obj;
                         showPopup( "Record Updated" );
                   }
-
                   startFunction();
                   fetchData();
-
                   // Reset form
                   document.getElementById( 'name' ).value = '';
                   document.getElementById( 'age' ).value = '';
@@ -205,10 +201,8 @@
                   document.getElementById( 'hobby3' ).checked = false;
                   document.getElementById( 'submit' ).value = 'Submit';
             }
-
             fetchData();
       </script>
-
 </body>
 
 </html>
