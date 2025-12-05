@@ -7,6 +7,7 @@
       <title>Quiz Game</title>
 </head>
 
+<<<<<<< HEAD
 <body
       style="font-family:Arial, sans-serif; background:#f0f2f5; display:flex; justify-content:center; align-items:center; height:100vh;">
 
@@ -17,22 +18,28 @@
 
             <div id="optArea" style="display:flex; flex-direction:column;"></div>
 
+=======
+<body style="font-family:Arial, sans-serif; background:#f0f2f5; display:flex; justify-content:center; align-items:center; height:100vh;">
+
+      <div id="mainBox" style="width:90%; max-width:600px; background:white; padding:20px; border-radius:12px; box-shadow:0 0 20px rgba(0,0,0,0.2);">
+
+            <h2 id="qText" style="margin-bottom:20px;">Question</h2>
+            <div id="optArea" style="display:flex; flex-direction:column;"></div>
+>>>>>>> a85a7b7c6b0c47d82cf427c7c680660e29ecd3ce
             <div style="margin-top:20px; display:flex; justify-content:space-between;">
                   <div id="timeBox" style="font-weight:bold; color:#007bff;">Time Left: 10s</div>
                   <button id="nextBtn"
                         style="background:#28a745; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; display:none;">Next</button>
             </div>
-
             <div style="margin-top:20px;">
                   <div style="height:10px; width:100%; background:#ddd; border-radius:5px;">
                         <div id="line" style="height:10px; width:0%; background:#007bff; border-radius:5px;"></div>
                   </div>
             </div>
-
       </div>
-
       <script>
             const quiz = [
+<<<<<<< HEAD
                   { q: "What is the capital of France?", opts: [ "Paris", "London", "Berlin", "Madrid" ], ans: "Paris" },
                   { q: "Which is the largest planet?", opts: [ "Earth", "Jupiter", "Mars", "Venus" ], ans: "Jupiter" },
                   { q: "Who wrote Hamlet?", opts: [ "Shakespeare", "Tolstoy", "Hemingway", "Huxley" ], ans: "Shakespeare" },
@@ -45,10 +52,24 @@
                   { q: "Which gas do humans breathe in?", opts: [ "Oxygen", "Nitrogen", "Carbon Dioxide", "Helium" ], ans: "Oxygen" }
             ];
 
+=======
+                  { q: "What is the capital of France?", opts: ["Paris", "London", "Berlin", "Madrid"], ans: "Paris" },
+                  { q: "Which is the largest planet?", opts: ["Earth", "Jupiter", "Mars", "Venus"], ans: "Jupiter" },
+                  { q: "Who wrote Hamlet?", opts: ["Shakespeare", "Tolstoy", "Hemingway", "Huxley"], ans: "Shakespeare" },
+                  { q: "What is 5 + 7?", opts: ["10", "12", "14", "11"], ans: "12" },
+                  { q: "Which ocean is the largest?", opts: ["Atlantic", "Indian", "Pacific", "Arctic"], ans: "Pacific" },
+                  { q: "Which year did India gain independence?", opts: ["1947", "1950", "1935", "1942"], ans: "1947" },
+                  { q: "What is the chemical symbol for water?", opts: ["H2O", "O2", "CO2", "HO"], ans: "H2O" },
+                  { q: "Which country has the maple leaf in its flag?", opts: ["USA", "Canada", "UK", "Australia"], ans: "Canada" },
+                  { q: "Who painted the Mona Lisa?", opts: ["Van Gogh", "Da Vinci", "Picasso", "Michelangelo"], ans: "Da Vinci" },
+                  { q: "Which gas do humans breathe in?", opts: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Helium"], ans: "Oxygen" }
+            ];
+>>>>>>> a85a7b7c6b0c47d82cf427c7c680660e29ecd3ce
             let index = 0;
             let marks = 0;
             let sec = 10;
             let run;
+<<<<<<< HEAD
 
             function startQuiz() {
                   document.getElementById( "nextBtn" ).style.display = "none";
@@ -86,19 +107,60 @@
                   clearInterval( run );
                   lock();
                   if ( sel === quiz[ index ].ans ) {
+=======
+            function startQuiz() {
+                  document.getElementById("nextBtn").style.display = "none";
+                  sec = 10;
+                  document.getElementById("timeBox").innerText = "Time Left: " + sec + "s";
+                  let q = quiz[index];
+                  document.getElementById("qText").innerText = q.q;
+                  let box = document.getElementById("optArea");
+                  box.innerHTML = "";
+                  q.opts.forEach(op => {
+                        let b = document.createElement("button");
+                        b.innerText = op;
+                        b.style.cssText = "margin:5px 0; padding:10px; border:none; border-radius:6px; background:#007bff; color:white; cursor:pointer; font-size:16px;";
+                        b.onclick = () => check(op, b);
+                        box.appendChild(b);
+                  });
+                  progress();
+                  run = setInterval(timer, 1000);
+            }
+            function timer() {
+                  sec--;
+                  document.getElementById("timeBox").innerText = "Time Left: " + sec + "s";
+                  if (sec <= 0) {
+                        clearInterval(run);
+                        lock();
+                        document.getElementById("nextBtn").style.display = "inline-block";
+                  }
+            }
+            function check(sel, btn) {
+                  clearInterval(run);
+                  lock();
+                  if (sel === quiz[index].ans) {
+>>>>>>> a85a7b7c6b0c47d82cf427c7c680660e29ecd3ce
                         marks++;
                         btn.style.background = "#28a745";
                   } else {
                         btn.style.background = "#dc3545";
+<<<<<<< HEAD
                         let all = document.getElementById( "optArea" ).children;
                         for ( let i = 0; i < all.length; i++ ) {
                               if ( all[ i ].innerText === quiz[ index ].ans ) {
                                     all[ i ].style.background = "#28a745";
+=======
+                        let all = document.getElementById("optArea").children;
+                        for (let i = 0; i < all.length; i++) {
+                              if (all[i].innerText === quiz[index].ans) {
+                                    all[i].style.background = "#28a745";
+>>>>>>> a85a7b7c6b0c47d82cf427c7c680660e29ecd3ce
                               }
                         }
                   }
-                  document.getElementById( "nextBtn" ).style.display = "inline-block";
+                  document.getElementById("nextBtn").style.display = "inline-block";
             }
+<<<<<<< HEAD
 
             function lock() {
                   let all = document.getElementById( "optArea" ).children;
@@ -120,9 +182,26 @@
                   }
             };
 
+=======
+            function lock() {
+                  let all = document.getElementById("optArea").children;
+                  for (let i = 0; i < all.length; i++) all[i].disabled = true;
+            }
+            function progress() {
+                  let p = (index / quiz.length) * 100;
+                  document.getElementById("line").style.width = p + "%";
+            }
+            document.getElementById("nextBtn").onclick = () => {
+                  index++;
+                  if (index < quiz.length) {
+                        startQuiz();
+                  } else {
+                        document.getElementById("mainBox").innerHTML =
+                              `<h2 style="text-align:center;">Quiz Completed!<br>Your Score: ${marks} / ${quiz.length}</h2>`;
+                  }
+            };
+>>>>>>> a85a7b7c6b0c47d82cf427c7c680660e29ecd3ce
             startQuiz();
       </script>
-
 </body>
-
 </html>
