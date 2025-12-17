@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Single Product</title>
+</head>
+
+<body style="background-color:#f7f7f7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial;">
+
+      <div
+            style="background:#c7003d;color:#fff;font-size:12px;padding:5px 10%;display:flex;justify-content:space-between">
+            <div>Brand Waali Quality, Bazaar Waali Deal!</div>
+            <div style="display:flex;gap:20px">
+                  <a href="#" style="color:#fff;text-decoration:none">Help Center</a>
+                  <a href="#" style="color:#fff;text-decoration:none">Sell On Snapdeal</a>
+            </div>
+      </div>
+
+      <div style="background:#fff;padding:15px 10%;box-shadow:0 2px 4px rgba(0,0,0,.1)">
+            <div style="display:flex;align-items:center;gap:30px">
+                  <img src="https://i3.sdlcdn.com/img/snapdeal/darwin/logo/sdLatestLogo.svg" height="30">
+                  <input placeholder="Search products"
+                        style="flex:1;padding:10px;border:1px solid #ddd;border-radius:4px">
+                  <div style="font-size:18px; position:relative; cursor:pointer" onclick="goToCart()">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="cart" style="width:24px; height:24px">
+                        <span id="cartCount"
+                              style="position:absolute; top:-8px; right:-12px; background:#c7003d; color:#fff; font-size:12px; padding:2px 6px; border-radius:50%; font-weight:600">0</span>
+                  </div>
+
+            </div>
+      </div>
+
+      <div
+            style="max-width:1000px;margin:40px auto;background:#fff;padding:30px;display:flex;gap:40px;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.1)">
+            <div style="flex:1;text-align:center">
+                  <img id="image" style="max-height:350px;width:100%;object-fit:contain">
+            </div>
+
+            <div style="flex:1;display:flex;flex-direction:column;gap:15px">
+                  <h3 id="title" style="font-size:22px;color:#333;line-height:1.4"></h3>
+                  <p id="price" style="font-size:26px;font-weight:700;color:#c7003d"></p>
+                  <div id="addtoCart"></div>
+                  <ul style="font-size:13px;color:#777;line-height:1.8">
+                        <li>Cash on Delivery available</li>
+                        <li>7 Days Easy Return</li>
+                        <li>100% Original Product</li>
+                  </ul>
+            </div>
+      </div>
+
+      <script>
+            let productId = localStorage.getItem( "productId" );
+
+            fetch( `https://fakestoreapi.com/products/${ productId }` )
+                  .then( res => res.json() )
+                  .then( p => {
+                        document.getElementById( "image" ).src = p.image;
+                        document.getElementById( "title" ).innerText = p.title;
+                        document.getElementById( "price" ).innerText = "₹ " + p.price;
+
+                        let token = JSON.parse( localStorage.getItem( "token" ) );
+                        let btn = "";
+
+                        if ( token ) {
+                              btn = `<button onclick="addToCart('${ p.image }','${ p.title }',1)" style="padding:14px 30px;background:#c7003d;color:#fff;border:none;font-size:15px;font-weight:600;border-radius:4px;cursor:pointer;width:220px">Add to Cart</button>`;
+                        } else {
+                              btn = `<button onclick="goToLogin()" style="padding:14px 30px;background:#333;color:#fff;border:none;font-size:15px;font-weight:600;border-radius:4px;cursor:pointer;width:220px">Login to Add Cart</button>`;
+                        }
+
+                        document.getElementById( "addtoCart" ).innerHTML = btn;
+                  } );
+
+            function updateCartCount() {
+                  let cart = JSON.parse( localStorage.getItem( "cartData" ) ) || [];
+                  document.getElementById( "cartCount" ).innerText = cart.length;
+            }
+
+            updateCartCount();
+
+            function addToCart( image, title, qty ) {
+                  let cart = JSON.parse( localStorage.getItem( "cartData" ) ) || [];
+                  cart.push( { image, title, qty } );
+                  localStorage.setItem( "cartData", JSON.stringify( cart ) );
+                  updateCartCount();
+                  alert( "Product added to cart" );
+            }
+
+            function goToLogin() {
+                  window.location = "login.html";
+            }
+
+            function goToCart() {
+                  window.location = "cart.html";
+            }
+      </script>
+
+</body>
+
+</html>
