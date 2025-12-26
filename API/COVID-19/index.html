@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <title>COVID Dashboard</title>
+</head>
+
+<body style="margin:0;font-family:Arial;background:#f4f4f4;">
+
+      <h2 style="text-align:center;background:#c7003d;color:white;padding:15px;margin:0;">
+            COVID-19 India Dashboard
+      </h2>
+
+      <p style="text-align:center;margin:10px 0;color:#555;">
+            Select State to View COVID Statistics
+      </p>
+
+      <div style="text-align:center;margin-top:20px;">
+            <select id="stateSelect" style="padding:10px;width:260px;font-size:16px;
+    border-radius:5px;border:1px solid #ccc;">
+                  <option value="">Select State</option>
+            </select>
+      </div>
+
+      <p id="loading" style="text-align:center;margin-top:20px;color:#777;">
+            Loading data...
+      </p>
+
+      <div id="result" style="max-width:450px;margin:30px auto;
+background:white;padding:20px;
+border-radius:10px;display:none;
+box-shadow:0 6px 18px rgba(0,0,0,0.2);">
+      </div>
+
+      <div style="text-align:center;">
+            <button onclick="resetData()" style="padding:10px 25px;background:#333;
+  color:#fff;border:none;border-radius:5px;
+  cursor:pointer;display:none;" id="resetBtn">
+                  Reset
+            </button>
+      </div>
+
+      <script>
+            let apiURL = "https://disease.sh/v3/covid-19/gov/India";
+
+            fetch( apiURL )
+                  .then( res => res.json() )
+                  .then( data => {
+
+                        document.getElementById( "loading" ).style.display = "none";
+
+                        let states = data.states;
+                        let dropdown = document.getElementById( "stateSelect" );
+
+                        states.forEach( s => {
+                              let option = document.createElement( "option" );
+                              option.value = s.state;
+                              option.innerText = s.state;
+                              dropdown.appendChild( option );
+                        } );
+
+                        dropdown.addEventListener( "change", function () {
+                              let selected = this.value;
+                              let stateData = states.find( x => x.state === selected );
+                              if ( !stateData ) return;
+
+                              document.getElementById( "result" ).style.display = "block";
+                              document.getElementById( "resetBtn" ).style.display = "inline-block";
+
+                              document.getElementById( "result" ).innerHTML = `
+      <h3 style="text-align:center;color:#c7003d;margin-bottom:20px;">
+        ${ stateData.state }
+      </h3>
+
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+
+        <div style="flex:1;background:#fff3cd;padding:12px;
+        border-radius:8px;text-align:center;">
+          <p>Total</p>
+          <b>${ stateData.cases }</b>
+        </div>
+
+        <div style="flex:1;background:#d1ecf1;padding:12px;
+        border-radius:8px;text-align:center;">
+          <p>Active</p>
+          <b>${ stateData.active }</b>
+        </div>
+
+        <div style="flex:1;background:#d4edda;padding:12px;
+        border-radius:8px;text-align:center;">
+          <p>Recovered</p>
+          <b>${ stateData.recovered }</b>
+        </div>
+
+        <div style="flex:1;background:#f8d7da;padding:12px;
+        border-radius:8px;text-align:center;">
+          <p>Deaths</p>
+          <b>${ stateData.deaths }</b>
+        </div>
+
+      </div>
+
+      <p style="text-align:center;margin-top:15px;font-size:12px;color:#777;">
+        Last Updated : ${ new Date().toLocaleDateString() }
+      </p>
+    `;
+                        } );
+
+                  } );
+
+            function resetData() {
+                  document.getElementById( "stateSelect" ).value = "";
+                  document.getElementById( "result" ).style.display = "none";
+                  document.getElementById( "resetBtn" ).style.display = "none";
+            }
+      </script>
+
+</body>
+
+</html>

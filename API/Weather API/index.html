@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>My Weather App</title>
+</head>
+
+<body style="
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#5f72be,#9b23ea);
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+">
+
+      <div style="
+        width:360px;
+        padding:28px;
+        border-radius:22px;
+        background:rgba(255,255,255,0.18);
+        backdrop-filter:blur(15px);
+        box-shadow:0 20px 40px rgba(0,0,0,0.35);
+        color:white;
+        text-align:center;
+    ">
+
+            <h2 style="margin-bottom:5px;">☀️ My Weather Checker</h2>
+
+            <p style="
+            font-size:13px;
+            opacity:0.8;
+            margin-bottom:18px;
+        ">
+                  Example: Surat, Mumbai, Delhi, London
+            </p>
+
+            <div style="display:flex;gap:10px;">
+                  <input type="text" id="inputCity" placeholder="Type city name..." style="
+                flex:1;
+                padding:12px;
+                border-radius:10px;
+                border:none;
+                outline:none;
+                font-size:15px;
+            ">
+                  <button id="fetchWeather" style="
+                padding:12px 20px;
+                border:none;
+                border-radius:10px;
+                cursor:pointer;
+                background:#f8b500;
+                font-weight:bold;
+                transition:0.3s;
+            " onmouseover="this.style.background='#ffcc33';" onmouseout="this.style.background='#f8b500';">
+                        Search
+                  </button>
+            </div>
+
+            <div id="displayWeather" style="margin-top:28px;"></div>
+
+      </div>
+
+      <script>
+            const WEATHER_API_KEY = "319e363f7129b57a68041bbafd049e3c";
+            const displayDiv = document.getElementById( "displayWeather" );
+            const btn = document.getElementById( "fetchWeather" );
+
+            btn.addEventListener( "click", () => {
+                  const city = document.getElementById( "inputCity" ).value.trim();
+                  displayDiv.innerHTML = "";
+
+                  if ( !city ) {
+                        displayDiv.innerHTML = "<p>Please enter a city name!</p>";
+                        return;
+                  }
+
+                  fetch( `https://api.openweathermap.org/data/2.5/weather?q=${ encodeURIComponent( city ) }&appid=${ WEATHER_API_KEY }&units=metric` )
+                        .then( response => response.json() )
+                        .then( data => {
+                              if ( data.cod === 200 ) {
+                                    const weatherIcon = `https://openweathermap.org/img/wn/${ data.weather[ 0 ].icon }@2x.png`;
+                                    displayDiv.innerHTML = `
+                            <div style="
+                                background:rgba(255,255,255,0.22);
+                                border-radius:20px;
+                                padding:22px;
+                                text-align:center;
+                                transition:0.3s;
+                            ">
+                                <h3 style="margin:0;">${ data.name }, ${ data.sys.country }</h3>
+                                <img src="${ weatherIcon }" style="width:100px; margin:10px 0;">
+                                <div style="font-size:36px; font-weight:bold; margin:8px 0;">
+                                    ${ data.main.temp }°C
+                                </div>
+                                <p style="text-transform:capitalize; margin:5px 0;">
+                                    ${ data.weather[ 0 ].description }
+                                </p>
+                                <div style="
+                                    display:flex;
+                                    justify-content:space-around;
+                                    margin-top:12px;
+                                    font-size:14px;
+                                    opacity:0.85;
+                                ">
+                                    <span>💧 ${ data.main.humidity }%</span>
+                                    <span>🌬 ${ data.wind.speed } km/h</span>
+                                </div>
+                            </div>
+                        `;
+                              } else {
+                                    displayDiv.innerHTML = "<p>City not found! ❌</p>";
+                              }
+                        } )
+                        .catch( () => {
+                              displayDiv.innerHTML = "<p>Failed to fetch data ⚠</p>";
+                        } );
+            } );
+      </script>
+
+</body>
+
+</html>

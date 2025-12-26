@@ -1,0 +1,25 @@
+ID
+
+      function changeQty( index, value ) {
+            if ( value === 1 && cart[ index ].qty >= 5 ) {
+                  alert( "Maximum quantity 5 allowed" );
+                  return;
+            }
+
+            if ( value === -1 && cart[ index ].qty <= 1 ) {
+                  return;
+            }
+
+            cart[ index ].qty += value;
+            localStorage.setItem( "cartData", JSON.stringify( cart ) );
+            renderCart();
+      }
+
+      function removeItem( index ) {
+            cart.splice( index, 1 );
+            localStorage.setItem( "cartData", JSON.stringify( cart ) );
+            renderCart();
+      }
+
+      renderCart();
+</script>
