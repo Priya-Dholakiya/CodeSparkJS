@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <title>Mini Banking System</title>
+
+      <style>
+            body {
+                  margin: 0;
+                  font-family: Segoe UI, Arial;
+                  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+                  height: 100vh;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color: #fff;
+            }
+
+            .bank {
+                  width: 360px;
+                  background: #ffffff;
+                  color: #333;
+                  border-radius: 12px;
+                  padding: 25px;
+                  box-shadow: 0 15px 40px rgba(0, 0, 0, .4);
+            }
+
+            .bank h2 {
+                  text-align: center;
+                  margin-bottom: 20px;
+                  color: #2c5364;
+            }
+
+            input {
+                  width: 100%;
+                  padding: 12px;
+                  margin: 10px 0;
+                  border-radius: 6px;
+                  border: 1px solid #ccc;
+                  font-size: 15px;
+            }
+
+            button {
+                  width: 100%;
+                  padding: 12px;
+                  margin-top: 10px;
+                  border: none;
+                  border-radius: 6px;
+                  background: #2c5364;
+                  color: white;
+                  font-size: 16px;
+                  cursor: pointer;
+            }
+
+            button:hover {
+                  background: #203a43;
+            }
+
+            .actions {
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 10px;
+                  margin-top: 10px;
+            }
+
+            .msg {
+                  margin-top: 15px;
+                  padding: 10px;
+                  background: #f1f1f1;
+                  border-radius: 6px;
+                  text-align: center;
+                  font-weight: 600;
+            }
+
+            .balance {
+                  text-align: center;
+                  margin-bottom: 15px;
+                  font-size: 18px;
+            }
+      </style>
+</head>
+
+<body>
+
+      <div class="bank">
+            <h2>🏦 Mini Banking System</h2>
+
+            <div class="balance">
+                  Balance: ₹ <span id="bal">0</span>
+            </div>
+
+            <input type="number" id="amount" placeholder="Enter Amount">
+
+            <div class="actions">
+                  <button onclick="deposit()">Deposit</button>
+                  <button onclick="withdraw()">Withdraw</button>
+            </div>
+
+            <button onclick="checkBalance()">Check Balance</button>
+
+            <div class="msg" id="msg">Welcome to Bank</div>
+      </div>
+
+      <script>
+            let balance = 0;
+
+            // UDF – Deposit Money
+            function deposit() {
+                  let amt = Number( document.getElementById( "amount" ).value );
+                  if ( amt > 0 ) {
+                        balance += amt;
+                        updateUI( "✅ ₹ " + amt + " Deposited Successfully" );
+                  } else {
+                        updateUI( "⚠️ Enter a valid amount to deposit" );
+                  }
+            }
+
+            // UDF – Withdraw Money
+            function withdraw() {
+                  let amt = Number( document.getElementById( "amount" ).value );
+                  if ( amt <= 0 ) {
+                        updateUI( "⚠️ Enter a valid amount to withdraw" );
+                  } else if ( amt > balance ) {
+                        updateUI( "❌ Insufficient Balance! Cannot Withdraw ₹ " + amt );
+                  } else {
+                        balance -= amt;
+                        updateUI( "✅ ₹ " + amt + " Withdrawn Successfully" );
+                  }
+            }
+
+            // UDF – Check Balance
+            function checkBalance() {
+                  updateUI( "💰 Current Balance: ₹ " + balance );
+            }
+
+            // UI Update Function
+            function updateUI( message ) {
+                  document.getElementById( "bal" ).innerText = balance;
+                  document.getElementById( "msg" ).innerText = message;
+                  document.getElementById( "amount" ).value = "";
+            }
+      </script>
+
+</body>
+
+</html>
