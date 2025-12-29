@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Fixed Size Slider</title>
-
+    <title>Responsive Slider</title>
     <style>
         * {
             margin: 0;
@@ -14,58 +13,57 @@
 
         body {
             background: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
         }
 
         .slider {
-            width: 1230px;
-            height: 291px;
+            width: 80%;
+            /* responsive width */
+            max-width: 1230px;
             overflow: hidden;
-            position: relative;
-            margin: 40px auto;
             border-radius: 12px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
         .track {
             display: flex;
-            width: 4920px;
-            height: 291px;
             transition: 0.6s ease;
         }
 
         .slide {
-            width: 1230px;
-            height: 291px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            min-width: 100%;
+            position: relative;
         }
 
-        .slide:nth-child(1) {
-            background-image: url("https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80");
-        }
-
-        .slide:nth-child(2) {
-            background-image: url("https://images.unsplash.com/photo-1465101178521-f7aa7c160a26?auto=format&fit=crop&w=1200&q=80");
-        }
-
-        .slide:nth-child(3) {
-            background-image: url("https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?auto=format&fit=crop&w=1200&q=80");
-        }
-
-        .slide:nth-child(4) {
-            background-image: url("https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1200&q=80");
+        .slide img {
+            width: 100%;
+            height: 400px;
+            /* fixed height but can adjust */
+            object-fit: cover;
+            display: block;
+            border-radius: 12px;
         }
 
         .btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border: none;
             font-size: 26px;
-            padding: 8px 14px;
+            padding: 10px 16px;
             cursor: pointer;
             border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 1);
         }
 
         #prev {
@@ -82,10 +80,18 @@
 
     <div class="slider">
         <div class="track" id="track">
-            <div class="slide"></div>
-            <div class="slide"></div>
-            <div class="slide"></div>
-            <div class="slide"></div>
+            <div class="slide"><img
+                    src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80"
+                    alt=""></div>
+            <div class="slide"><img
+                    src="https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?auto=format&fit=crop&w=1200&q=80"
+                    alt=""></div>
+            <div class="slide"><img
+                    src="https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1200&q=80"
+                    alt=""></div>
+            <div class="slide"><img
+                    src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+                    alt=""></div>
         </div>
 
         <button class="btn" id="prev">‹</button>
@@ -93,19 +99,21 @@
     </div>
 
     <script>
+        const track = document.getElementById( "track" );
+        const slides = document.querySelectorAll( ".slide" );
+        const slideCount = slides.length;
         let index = 0;
-        let track = document.getElementById( "track" );
 
         document.getElementById( "next" ).onclick = function () {
             index++;
-            if ( index > 3 ) index = 0;
-            track.style.transform = "translateX(-" + index * 1230 + "px)";
+            if ( index >= slideCount ) index = 0;
+            track.style.transform = `translateX(-${ index * 100 }%)`;
         }
 
         document.getElementById( "prev" ).onclick = function () {
             index--;
-            if ( index < 0 ) index = 3;
-            track.style.transform = "translateX(-" + index * 1230 + "px)";
+            if ( index < 0 ) index = slideCount - 1;
+            track.style.transform = `translateX(-${ index * 100 }%)`;
         }
     </script>
 

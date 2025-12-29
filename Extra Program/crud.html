@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+      <title>CRUD Form</title>
+</head>
+
+<body
+      style="margin:0; font-family:Segoe UI; background:linear-gradient(120deg,#1d2671,#c33764); min-height:100vh; display:flex; justify-content:center; align-items:center;">
+
+      <div
+            style="background:#fff; width:700px; padding:25px; border-radius:14px; box-shadow:0 15px 40px rgba(0,0,0,0.3);">
+
+            <h2 style="text-align:center; color:#333; margin-bottom:20px;">Student CRUD Form</h2>
+
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                  <input id="name" type="text" placeholder="Enter Name"
+                        style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;">
+                  <input id="email" type="text" placeholder="Enter Email"
+                        style="flex:1; padding:10px; border-radius:8px; border:1px solid #ccc;">
+            </div>
+
+            <div style="text-align:center; margin-bottom:20px;">
+                  <button onclick="addData()"
+                        style="padding:10px 18px; border:none; border-radius:8px; background:#4CAF50; color:white; cursor:pointer;">Add</button>
+                  <button onclick="updateData()"
+                        style="padding:10px 18px; border:none; border-radius:8px; background:#ff9800; color:white; cursor:pointer;">Update</button>
+            </div>
+
+            <table style="width:100%; border-collapse:collapse;">
+                  <thead>
+                        <tr style="background:#f1f1f1;">
+                              <th style="padding:10px; border:1px solid #ddd;">ID</th>
+                              <th style="padding:10px; border:1px solid #ddd;">Name</th>
+                              <th style="padding:10px; border:1px solid #ddd;">Email</th>
+                              <th style="padding:10px; border:1px solid #ddd;">Action</th>
+                        </tr>
+                  </thead>
+                  <tbody id="tableBody"></tbody>
+            </table>
+
+      </div>
+
+      <script>
+            let data = [];
+            let editIndex = -1;
+
+            function addData() {
+                  let name = document.getElementById( "name" ).value;
+                  let email = document.getElementById( "email" ).value;
+
+                  if ( name === "" || email === "" ) return;
+
+                  data.push( { name, email } );
+                  clearForm();
+                  showData();
+            }
+
+            function showData() {
+                  let rows = "";
+                  data.forEach( ( item, index ) => {
+                        rows += `
+      <tr>
+        <td style="padding:8px; border:1px solid #ddd;">${ index + 1 }</td>
+        <td style="padding:8px; border:1px solid #ddd;">${ item.name }</td>
+        <td style="padding:8px; border:1px solid #ddd;">${ item.email }</td>
+        <td style="padding:8px; border:1px solid #ddd; text-align:center;">
+          <button onclick="editData(${ index })" style="background:#2196F3;color:white;border:none;padding:6px 10px;border-radius:6px;">Edit</button>
+          <button onclick="deleteData(${ index })" style="background:#f44336;color:white;border:none;padding:6px 10px;border-radius:6px;">Delete</button>
+        </td>
+      </tr>
+    `;
+                  } );
+                  document.getElementById( "tableBody" ).innerHTML = rows;
+            }
+
+            function editData( index ) {
+                  document.getElementById( "name" ).value = data[ index ].name;
+                  document.getElementById( "email" ).value = data[ index ].email;
+                  editIndex = index;
+            }
+
+            function updateData() {
+                  if ( editIndex === -1 ) return;
+
+                  data[ editIndex ].name = document.getElementById( "name" ).value;
+                  data[ editIndex ].email = document.getElementById( "email" ).value;
+
+                  editIndex = -1;
+                  clearForm();
+                  showData();
+            }
+
+            function deleteData( index ) {
+                  data.splice( index, 1 );
+                  showData();
+            }
+
+            function clearForm() {
+                  document.getElementById( "name" ).value = "";
+                  document.getElementById( "email" ).value = "";
+            }
+      </script>
+
+</body>
+
+</html>

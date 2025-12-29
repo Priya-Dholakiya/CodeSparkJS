@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <title>Expense Tracker Using JavaScript</title>
+
+      <style>
+            body {
+                  font-family: Arial;
+                  background: #f2f2f2;
+                  padding: 20px;
+            }
+
+            .container {
+                  max-width: 900px;
+                  margin: auto;
+            }
+
+            .balance {
+                  background: #fff;
+                  padding: 20px;
+                  text-align: center;
+                  margin-bottom: 20px;
+            }
+
+            .flex {
+                  display: flex;
+                  gap: 20px;
+            }
+
+            .box {
+                  background: #fff;
+                  padding: 20px;
+                  width: 50%;
+            }
+
+            table {
+                  width: 100%;
+                  border-collapse: collapse;
+            }
+
+            th,
+            td {
+                  border: 1px solid #ddd;
+                  padding: 8px;
+                  text-align: center;
+            }
+
+            th {
+                  background: #6aff6a;
+            }
+
+            input,
+            select,
+            button {
+                  width: 100%;
+                  padding: 6px;
+                  margin: 6px 0;
+            }
+
+            button {
+                  background: #000;
+                  color: #fff;
+                  cursor: pointer;
+            }
+
+            .green {
+                  color: green;
+            }
+
+            .red {
+                  color: red;
+            }
+      </style>
+</head>
+
+<body>
+
+      <div class="container">
+
+            <h2 style="text-align:center">Expense Tracker Using JavaScript</h2>
+
+            <div class="balance">
+                  <h3>✔ Balance: <span id="balance">0</span></h3>
+                  <p>
+                        Total Income: <span class="green" id="income">0</span> |
+                        Total Expenses: <span class="red" id="expense">0</span>
+                  </p>
+            </div>
+
+            <div class="flex">
+
+                  <!-- LEFT -->
+                  <div class="box">
+                        <h3>Expenses</h3>
+                        <table>
+                              <thead>
+                                    <tr>
+                                          <th>Sno.</th>
+                                          <th>Name</th>
+                                          <th>Amount</th>
+                                          <th>Type</th>
+                                          <th>Delete</th>
+                                    </tr>
+                              </thead>
+                              <tbody id="list"></tbody>
+                        </table>
+                  </div>
+
+                  <!-- RIGHT -->
+                  <div class="box">
+                        <h3>Add new</h3>
+
+                        <label>Entry type</label>
+                        <select id="type">
+                              <option value="income">Income</option>
+                              <option value="expense">Expense</option>
+                        </select>
+
+                        <label>Name</label>
+                        <input type="text" id="name">
+
+                        <label>Amount</label>
+                        <input type="number" id="amount">
+
+                        <button onclick="add()">Add Expense</button>
+                  </div>
+
+            </div>
+      </div>
+
+      <script>
+            let data = [];
+
+            function add() {
+                  let name = document.getElementById( "name" ).value;
+                  let amount = Number( document.getElementById( "amount" ).value );
+                  let type = document.getElementById( "type" ).value;
+
+                  if ( name == "" || amount <= 0 ) {
+                        alert( "Fill all fields" );
+                        return;
+                  }
+
+                  data.push( { name, amount, type } );
+                  document.getElementById( "name" ).value = "";
+                  document.getElementById( "amount" ).value = "";
+                  show();
+            }
+
+            function del( i ) {
+                  data.splice( i, 1 );
+                  show();
+            }
+
+            function show() {
+                  let list = document.getElementById( "list" );
+                  list.innerHTML = "";
+                  let inc = 0, exp = 0;
+
+                  data.forEach( ( d, i ) => {
+                        d.type == "income" ? inc += d.amount : exp += d.amount;
+                        list.innerHTML += `
+        <tr>
+            <td>${ i + 1 }</td>
+            <td>${ d.name }</td>
+            <td>${ d.amount }</td>
+            <td>${ d.type == "income" ? "✔" : "❌" }</td>
+            <td><button onclick="del(${ i })">X</button></td>
+        </tr>`;
+                  } );
+
+                  document.getElementById( "income" ).innerText = inc;
+                  document.getElementById( "expense" ).innerText = exp;
+                  document.getElementById( "balance" ).innerText = inc - exp;
+            }
+      </script>
+
+</body>
+
+</html>
