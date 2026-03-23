@@ -1,25 +1,165 @@
-ID
+<!DOCTYPE html>
+<html lang="en">
 
-      function changeQty( index, value ) {
-            if ( value === 1 && cart[ index ].qty >= 5 ) {
-                  alert( "Maximum quantity 5 allowed" );
-                  return;
+<head>
+      <meta charset="UTF-8">
+      <title>Cart</title>
+
+      <style>
+            body {
+                  font-family: Arial;
+                  background: #f7f7f7;
+                  margin: 0;
             }
 
-            if ( value === -1 && cart[ index ].qty <= 1 ) {
-                  return;
+            .btn {
+                  padding: 10px 16px;
+                  background: linear-gradient(45deg, #c7003d, #ff4d6d);
+                  color: white;
+                  border: none;
+                  border-radius: 6px;
+                  font-size: 14px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: 0.3s;
             }
 
-            cart[ index ].qty += value;
-            localStorage.setItem( "cartData", JSON.stringify( cart ) );
-            renderCart();
-      }
+            .btn:hover {
+                  transform: scale(1.05);
+            }
 
-      function removeItem( index ) {
-            cart.splice( index, 1 );
-            localStorage.setItem( "cartData", JSON.stringify( cart ) );
-            renderCart();
-      }
+            .card {
+                  background: #fff;
+                  margin: 20px auto;
+                  padding: 20px;
+                  border-radius: 10px;
+                  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                  display: flex;
+                  gap: 20px;
+                  align-items: center;
+                  max-width: 700px;
+            }
 
-      renderCart();
-</script>
+            .card img {
+                  height: 120px;
+                  width: 120px;
+                  object-fit: contain;
+            }
+
+            .info {
+                  flex: 1;
+            }
+
+            .title {
+                  font-size: 16px;
+                  margin-bottom: 5px;
+            }
+
+            .price {
+                  color: #c7003d;
+                  font-weight: bold;
+                  margin-bottom: 10px;
+            }
+
+            .qtyBox {
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+            }
+
+            .totalBox {
+                  text-align: center;
+                  background: #fff;
+                  padding: 15px;
+                  margin: 20px;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                  color: #c7003d;
+            }
+      </style>
+</head>
+
+<body>
+
+      <div style="padding:15px;background:#c7003d;color:white;display:flex;justify-content:space-between">
+            <button class="btn" onclick="goHome()">⬅ Home</button>
+            <h2>My Cart</h2>
+            <div></div>
+      </div>
+
+      <div id="cartBox"></div>
+
+      <script>
+            let cart = JSON.parse( localStorage.getItem( "cartData" ) ) || [];
+
+            function renderCart() {
+
+                  if ( cart.length === 0 ) {
+                        document.getElementById( "cartBox" ).innerHTML =
+                              "<h2 style='text-align:center'>Cart Empty 😢</h2>";
+                        return;
+                  }
+
+                  let html = "";
+                  let total = 0;
+
+                  cart.forEach( ( item, index ) => {
+                        total += item.price * item.qty;
+
+                        html += `
+            <div class="card">
+
+                  <img src="${ item.image }">
+
+                  <div class="info">
+                        <div class="title">${ item.title }</div>
+                        <div class="price">₹ ${ item.price }</div>
+
+                        <div class="qtyBox">
+                              <button class="btn" onclick="changeQty(${ index },1)">+</button>
+                              <span>${ item.qty }</span>
+                              <button class="btn" onclick="changeQty(${ index },-1)">-</button>
+                        </div>
+                  </div>
+
+                  <button class="btn" onclick="removeItem(${ index })">Remove</button>
+
+            </div>`;
+                  } );
+
+                  html += `<div class="totalBox">
+            <h2>Total ₹ ${ total }</h2>
+            </div>`;
+
+                  document.getElementById( "cartBox" ).innerHTML = html;
+            }
+
+            function changeQty( i, val ) {
+                  if ( val == 1 && cart[ i ].qty >= 5 ) {
+                        alert( "Max 5 allowed" );
+                        return;
+                  }
+
+                  if ( val == -1 && cart[ i ].qty <= 1 ) return;
+
+                  cart[ i ].qty += val;
+                  localStorage.setItem( "cartData", JSON.stringify( cart ) );
+                  renderCart();
+            }
+
+            function removeItem( i ) {
+                  cart.splice( i, 1 );
+                  localStorage.setItem( "cartData", JSON.stringify( cart ) );
+                  renderCart();
+            }
+
+            function goHome() {
+                  window.location = "index.html";
+            }
+
+            renderCart();
+      </script>
+
+</body>
+
+</html>
