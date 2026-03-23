@@ -3,84 +3,52 @@
 
 <head>
       <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Login - Snapdeal Clone</title>
+      <title>Login</title>
 </head>
+.btn {
+padding: 9px 15px;
+background: linear-gradient(45deg, #b3a7ab, #ff4d6d);
+color: white;
+border: none;
+border-radius: 6px;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+transition: 0.9s;
+}
 
-<body
-      style="margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif; background-color:#f7f7f7;">
+.btn:hover {
+transform: scale(1.05);
+}
+</style>
+<body style="font-family:Arial;background:#f7f7f7">
 
-      <div
-            style="background:#c7003d; color:#fff; font-size:12px; padding:5px 10%; display:flex; justify-content:space-between; align-items:center;">
-            <div>Brand Waali Quality, Bazaar Waali Deal!</div>
-            <div>
-                  <a href="#"
-                        style="color:#fff; text-decoration:none; margin-left:15px; font-size:12px;">Impact@Snapdeal</a>
-                  <a href="#" style="color:#fff; text-decoration:none; margin-left:15px; font-size:12px;">Gift Cards</a>
-                  <a href="#" style="color:#fff; text-decoration:none; margin-left:15px; font-size:12px;">Help
-                        Center</a>
-                  <a href="#" style="color:#fff; text-decoration:none; margin-left:15px; font-size:12px;">Sell On
-                        Snapdeal</a>
-                  <a href="#" style="color:#fff; text-decoration:none; margin-left:15px; font-size:12px;">Download
-                        App</a>
-            </div>
-      </div>
+      <h2 style="text-align:center">Login</h2>
 
-      <div
-            style="background:#fff; padding:15px 10%; box-shadow:0 2px 4px rgba(0,0,0,0.1); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000;">
-            <div><img src="https://i3.sdlcdn.com/img/snapdeal/darwin/logo/sdLatestLogo.svg" alt="Logo" height="28">
-            </div>
-            <div style="flex:1; display:flex; gap:0 5px;">
-                  <input type="text" placeholder="Search for products, brands & more"
-                        style="flex:1; padding:10px 15px; border:1px solid #ddd; border-radius:4px 0 0 4px; outline:none; font-size:14px;">
-                  <button
-                        style="padding:10px 20px; border:none; background:#333; color:#fff; border-radius:0 4px 4px 0; cursor:pointer; font-weight:600;">Search</button>
-            </div>
-            <div style="display:flex; align-items:center; gap:20px;">
-                  <div style="position:relative; cursor:pointer;" onclick="goToCart()">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart"
-                              style="width:28px; height:28px;">
-                        <span id="cartCount"
-                              style="position:absolute; top:-8px; right:-10px; background:#c7003d; color:#fff; font-size:12px; padding:2px 6px; border-radius:50%; font-weight:600;">0</span>
-                  </div>
-            </div>
-      </div>
-
-      <div
-            style="max-width:400px; background:#fff; margin:50px auto; padding:40px 30px; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
-            <h2 style="text-align:center; margin-bottom:25px; color:#c7003d;">Login</h2>
-            <form onsubmit="return loginUser(event)">
-                  <input type="text" id="username" placeholder="Username" required
-                        style="width:100%; padding:12px 15px; margin:10px 0 20px 0; border:1px solid #ccc; border-radius:4px; font-size:14px;">
-                  <input type="password" id="password" placeholder="Password" required
-                        style="width:100%; padding:12px 15px; margin:10px 0 20px 0; border:1px solid #ccc; border-radius:4px; font-size:14px;">
-                  <input type="submit" value="Login"
-                        style="width:100%; padding:12px; background:#c7003d; color:#fff; border:none; border-radius:4px; font-size:16px; font-weight:600; cursor:pointer;">
-            </form>
-      </div>
+      <form onsubmit="login(event)" style="width:300px;margin:auto">
+            <input id="user" placeholder="Username" required><br><br>
+            <input id="pass" type="password" placeholder="Password" required><br><br>
+            <button class="btn">Login</button>
+      </form>
 
       <script>
-            function updateCartCount() {
-                  let cart = JSON.parse( localStorage.getItem( "cartData" ) ) || [];
-                  document.getElementById( "cartCount" ).innerText = cart.length;
-            }
-            updateCartCount();
-
-            function loginUser( e ) {
+            function login( e ) {
                   e.preventDefault();
-                  let username = document.getElementById( "username" ).value;
-                  let password = document.getElementById( "password" ).value;
-                  let users = JSON.parse( localStorage.getItem( "users" ) ) || [];
-                  users.push( { username, password } );
-                  localStorage.setItem( "users", JSON.stringify( users ) );
-                  let token = Math.random().toString( 36 ).substring( 2 );
-                  localStorage.setItem( "token", JSON.stringify( token ) );
-                  alert( "Login Successful" );
-                  window.location = "index.html";
-            }
 
-            function goToCart() {
-                  window.location = "cart.html";
+                  let u = document.getElementById( "user" ).value;
+                  let p = document.getElementById( "pass" ).value;
+
+                  let users = JSON.parse( localStorage.getItem( "users" ) ) || [];
+
+                  let valid = users.find( x => x.username == u && x.password == p );
+
+                  if ( valid ) {
+                        localStorage.setItem( "token", "yes" );
+                        alert( "Login success" );
+                        window.location = "index.html";
+                  } else {
+                        alert( "Invalid user" );
+                  }
             }
       </script>
 
